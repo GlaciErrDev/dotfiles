@@ -6,20 +6,16 @@
 - clean: ['~', '~/.vim', '~/.config']
 
 - link:
-    ~/.fonts: meta/fonts
-    ~/.config/alacritty: meta/alacritty
-    ~/.gitconfig: meta/gitconfig
-    ~/.gitignore: meta/gitignore
-    ~/.tmux.conf: meta/tmux.conf
-    ~/.zshrc: meta/zshrc
+    ~/.fonts: fonts
+    ~/.config/alacritty: alacritty
+    ~/.gitconfig: gitconfig
+    ~/.gitignore: gitignore
+    ~/.tmux.conf: tmux.conf
+    ~/.zshrc: zshrc
 
 - create:
   - ~/Projects
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - command: ./meta/apt_install
-    stderr: true
-    description: Installing apt packages
-
   - 'grep starship ~/.zshrc && exit 0 || echo "eval \"\$(starship init zsh)\"" >> ~/.zshrc'
