@@ -1,0 +1,14 @@
+[user]
+	name  = Mike Durnosvystov
+	email = glacierr.dev@gmail.com
+
+[github]
+	user = glacierrdev
+
+[alias]
+  	s = stash
+[core]
+	editor = nvim
+	excludesfile = ~/.dotfiles/gitignore
+[init]
+	templatedir = ~/.dotfiles/git-templates/
