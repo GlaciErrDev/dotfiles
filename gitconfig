@@ -8,7 +8,7 @@
 [alias]
   	s = stash
 [core]
-	editor = nvim
+	editor = nv
 	excludesfile = ~/.dotfiles/gitignore
 [init]
 	templatedir = ~/.dotfiles/git-templates/

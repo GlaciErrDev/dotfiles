@@ -12,6 +12,7 @@
     ~/.gitignore: gitignore
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
+    ~/.config/nvim: nvim
 
 - create:
   - ~/Projects
