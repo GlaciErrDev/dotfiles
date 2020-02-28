@@ -49,7 +49,9 @@ let g:coc_global_extensions = [
 " => Basic configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:python_host_prog = "~/.pyenv/shims/python"
-let g:coc_node_path = '/usr/local/opt/node/bin/node'
+" There is some issue with Node and why here is full path
+" https://github.com/neoclide/coc.nvim/issues/856
+" let g:coc_node_path = '/home/glacierr/.nodenv/shims/node'
 
 let mapleader = ","
 
