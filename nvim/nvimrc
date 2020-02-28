@@ -1,0 +1,337 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'preservim/nerdtree'
+Plug 'preservim/nerdcommenter'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'schickling/vim-bufonly'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'roman/golden-ratio'
+Plug 'jiangmiao/auto-pairs'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim'
+Plug 'taohexxx/lightline-buffer'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'ryanoasis/vim-devicons'
+
+call plug#end()
+
+" coc.nvim specific
+let g:coc_global_extensions = [
+  \'coc-json',
+  \'coc-tsserver',
+  \'coc-html',
+  \'coc-css',
+  \'coc-yaml',
+  \'coc-python',
+  \'coc-lists',
+  \'coc-tag',
+  \'coc-syntax',
+  \'coc-docker',
+  \'coc-sh',
+  \'coc-git',
+\]
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Basic configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:python_host_prog = "~/.pyenv/shims/python"
+" There is some issue with Node and why here is full path
+" https://github.com/neoclide/coc.nvim/issues/856
+" let g:coc_node_path = '/home/glacierr/.nodenv/shims/node'
+
+let mapleader = ","
+
+set number
+set nobackup
+set nowritebackup
+set noswapfile
+set laststatus=2 " Always display the status line
+set showtabline=2
+set autoindent
+set smartindent
+set expandtab
+" set cursorline
+
+" set wildignore=*.o,*~,*.pyc
+" set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
+" set wildignore+=*/__pycache__/*,*/.mypy_cache/*
+
+set ffs=unix,dos,mac
+
+set timeoutlen=300
+set ttimeoutlen=150
+
+set shiftwidth=2
+set softtabstop=2
+
+set backspace=indent,eol,start
+set termguicolors
+if has("macunix")
+  set clipboard=unnamed
+else
+  set clipboard=unnamedplus
+endif
+
+set background=light
+colorscheme PaperColor
+
+set incsearch
+set ignorecase
+set smartcase
+set lazyredraw
+set textwidth=120
+set colorcolumn=120
+set encoding=utf8
+
+set novisualbell
+set noerrorbells
+
+" Specify the behavior when switching between buffers
+set switchbuf=useopen,usetab,vsplit
+
+" Set x lines to the cursor - when moving vertically using j/k
+set so=10
+set wildmenu
+if !&scrolloff
+  set scrolloff=3
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+
+" if hidden is not set, TextEdit might fail.
+set hidden
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+" always show signcolumns
+set signcolumn=yes
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Advance configs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:better_whitespace_enabled = 1
+let g:strip_whitespace_on_save = 1
+
+let NERDTreeHighlightCursorline=0
+let NERDTreeIgnore = [
+    \'\.undodir$', '\.vim$', '\.vim/$', '\.pyc$', '__pycache__$',
+    \'\.git$', '\.pytest_cache$', '\.idea$', 'build$',
+    \'dist$', '\.egg-info$', '\.vscode$', '\.mypy_cache$',
+    \'.DS_Store$'
+    \]
+let NERDTreeChDirMode=2
+let NERDTreeShowHidden=1
+let NERDTreeDirArrows=1
+let NERDTreeMinimalUI=1
+let NERDTreeMouseMode=2
+let NERDTreeShowBookmarks=1
+let NERDTreeAutoDeleteBuffer = 1
+let g:NERDSpaceDelims = 1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDDefaultAlign = 'left'
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
+" let g:lightline = {
+"       \ 'colorscheme': 'PaperColor',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'cocstatus': 'coc#status',
+"       \   'currentfunction': 'CocCurrentFunction'
+"       \ },
+"       \ }
+
+let g:lightline = {
+    \ 'tabline': {
+    \   'left': [ [ 'bufferinfo' ],
+    \             [ 'separator' ],
+    \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ],
+    \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ],
+    \   ],
+    \   'right': [['close']],
+    \ },
+    \ 'active': {
+    \   'left': [
+    \     [ 'mode', 'paste' ],
+    \     [ 'ctrlpmark', 'git', 'diagnostic', 'cocstatus', 'filename', 'method' ]
+    \   ],
+    \   'right':[
+    \     [ 'filetype', 'fileencoding', 'lineinfo', 'percent' ],
+    \     [ 'blame' ]
+    \   ],
+    \ },
+    \ 'component_expand': {
+    \   'buffercurrent': 'lightline#buffer#buffercurrent',
+    \   'bufferbefore': 'lightline#buffer#bufferbefore',
+    \   'bufferafter': 'lightline#buffer#bufferafter',
+    \ },
+    \ 'component_type': {
+    \   'buffercurrent': 'tabsel',
+    \   'bufferbefore': 'raw',
+    \   'bufferafter': 'raw',
+    \ },
+    \ 'component_function': {
+    \   'bufferinfo': 'lightline#buffer#bufferinfo',
+    \   'blame': 'LightlineGitBlame',
+    \   'cocstatus': 'coc#status',
+    \   'currentfunction': 'CocCurrentFunction'
+    \ },
+    \ 'colorscheme': 'PaperColor',
+    \ 'component': {
+    \   'readonly': '%{&readonly?"":""}',
+    \ },
+    \ 'separator': { 'left': '', 'right': '' },
+    \ 'subseparator': { 'left': '', 'right': '' }
+    \ }
+
+augroup langs
+  autocmd!
+  autocmd BufNewFile,BufRead Dockerfile* set syntax=dockerfile
+  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+augroup end
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Maps
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+imap kj <Esc>
+
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
+
+" Get off my lawn
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+nmap <silent> ]e <Plug>(coc-diagnostic-next)
+nmap <silent> [e <Plug>(coc-diagnostic-prev)
+
+" Remap keys for git commands
+nmap <silent> ]c <Plug>(coc-git-nextchunk)
+nmap <silent> [c <Plug>(coc-git-prevchunk)
+nmap <silent> <Leader>hp <Plug>(coc-git-chunkinfo)
+nmap <silent> <Leader>hb <Plug>(coc-git-commit)
+nmap <silent> <Leader>hr :<C-u>CocCommand git.chunkUndo<CR>
+nmap <silent> <Leader>hs :<C-u>CocCommand git.chunkStage<CR>
+nmap <silent> <Leader>hc :<C-u>terminal tig status<CR>i<CR>
+
+nmap <F2> <Plug>(coc-rename)
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Visual mode pressing * or # searches for the current selection
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+" NerdTree
+nnoremap <Leader>nn :NERDTreeToggle<CR>
+nnoremap <Leader>nf :NERDTreeFind<CR>
+
+" Yank file path with line number
+nnoremap <Leader>yl :let @+=expand("%") . ':' . line(".")<CR>
+
+" n always search forward and N backward
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+
+" Close all the buffers except the current buffer.
+map <Leader>bo :BufOnly<CR>
+" Close the current buffer
+map <silent> <Leader>bd :bd<CR>
+" Close all the buffers
+map <Leader>ba :bufdo bd<CR>
+map <Leader>. :bnext<CR>
+map <Leader>m :bprevious<CR>
+
+" EasyAlign
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! LightlineGitBlame() abort
+  let blame = get(b:, 'coc_git_blame', '')
+  " return blame
+  return winwidth(0) > 120 ? blame : ''
+endfunction
+
+function! VisualSelection(direction, extra_filter) range
+  let l:saved_reg = @"
+  execute "normal! vgvy"
+
+  let l:pattern = escape(@", "\\/.*'$^~[]")
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+  if a:direction == 'gv'
+    call CmdLine("Rg '" . l:pattern . "' " )
+  elseif a:direction == 'replace'
+    call CmdLine("%s" . '/'. l:pattern . '/')
+  endif
+
+  let @/ = l:pattern
+  let @" = l:saved_reg
+endfunction
