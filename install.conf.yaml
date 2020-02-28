@@ -1,0 +1,22 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~', '~/.vim', '~/.config']
+
+- link:
+    ~/.fonts: fonts
+    ~/.config/alacritty: alacritty
+    ~/.gitconfig: gitconfig
+    ~/.gitignore: gitignore
+    ~/.tmux.conf: tmux.conf
+    ~/.zshrc: zshrc
+    ~/.config/nvim: nvim
+
+- create:
+  - ~/Projects
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+  - 'grep starship ~/.zshrc && exit 0 || echo "eval \"\$(starship init zsh)\"" >> ~/.zshrc'
