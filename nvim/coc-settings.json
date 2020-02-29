@@ -1,0 +1,13 @@
+{
+    // python
+    "python.jediEnabled": false,
+
+    //multiple curssors
+    "cursors.nextKey": "<C-n>",
+    "cursors.previousKey": "<C-p>",
+    "cursors.cancelKey": "<esc>",
+
+    "list.source.files.args": ["--hidden", "--files"],
+
+    "git.addGBlameToBufferVar": true
+}

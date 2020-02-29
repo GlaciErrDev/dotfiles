@@ -64,11 +64,13 @@ set showtabline=2
 set autoindent
 set smartindent
 set expandtab
-" set cursorline
 
-" set wildignore=*.o,*~,*.pyc
-" set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
-" set wildignore+=*/__pycache__/*,*/.mypy_cache/*
+" Give more space for displaying messages.
+set cmdheight=2
+
+set wildignore=*.o,*~,*.pyc
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
+set wildignore+=*/__pycache__/*,*/.mypy_cache/*
 
 set ffs=unix,dos,mac
 
@@ -93,8 +95,8 @@ set incsearch
 set ignorecase
 set smartcase
 set lazyredraw
-set textwidth=120
-set colorcolumn=120
+set textwidth=99
+set colorcolumn=99
 set encoding=utf8
 
 set novisualbell
@@ -131,7 +133,7 @@ let g:strip_whitespace_on_save = 1
 
 let NERDTreeHighlightCursorline=0
 let NERDTreeIgnore = [
-    \'\.undodir$', '\.vim$', '\.vim/$', '\.pyc$', '__pycache__$',
+    \'\.undodir$','\.pyc$', '__pycache__$',
     \'\.git$', '\.pytest_cache$', '\.idea$', 'build$',
     \'dist$', '\.egg-info$', '\.vscode$', '\.mypy_cache$',
     \'.DS_Store$'
@@ -150,39 +152,25 @@ let g:NERDDefaultAlign = 'left'
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-function! CocCurrentFunction()
-    return get(b:, 'coc_current_function', '')
-endfunction
-
-" let g:lightline = {
-"       \ 'colorscheme': 'PaperColor',
-"       \ 'active': {
-"       \   'left': [ [ 'mode', 'paste' ],
-"       \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ] ]
-"       \ },
-"       \ 'component_function': {
-"       \   'cocstatus': 'coc#status',
-"       \   'currentfunction': 'CocCurrentFunction'
-"       \ },
-"       \ }
+" Keep all folds open when a file is opened
+augroup OpenAllFoldsOnFileOpen
+    autocmd!
+    autocmd BufRead * normal zR
+augroup END
 
 let g:lightline = {
     \ 'tabline': {
-    \   'left': [ [ 'bufferinfo' ],
-    \             [ 'separator' ],
-    \             [ 'bufferbefore', 'buffercurrent', 'bufferafter' ],
-    \             [ 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ],
+    \   'left': [
+    \     [ 'bufferbefore', 'buffercurrent', 'bufferafter' ],
     \   ],
     \   'right': [['close']],
     \ },
     \ 'active': {
     \   'left': [
-    \     [ 'mode', 'paste' ],
-    \     [ 'ctrlpmark', 'git', 'diagnostic', 'cocstatus', 'filename', 'method' ]
+    \     [ 'mode', 'paste', 'cocstatus', 'currentfunction', 'readonly', 'filename', 'modified' ],
     \   ],
     \   'right':[
-    \     [ 'filetype', 'fileencoding', 'lineinfo', 'percent' ],
-    \     [ 'blame' ]
+    \     [ 'blame', 'filetype', 'fileencoding', 'lineinfo', 'percent' ],
     \   ],
     \ },
     \ 'component_expand': {
@@ -282,6 +270,27 @@ function! s:show_documentation()
   endif
 endfunction
 
+" grep word under cursor
+command! -nargs=+ -complete=custom,s:GrepArgs Rg exe 'CocList grep '.<q-args>
+
+function! s:GrepArgs(...)
+  let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
+        \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
+  return join(list, "\n")
+endfunction
+
+" Keymapping for grep word under cursor with interactive mode
+nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
+
+" Multiple cursor
+nmap <expr> <silent> <Leader>d <SID>select_current_word()
+function! s:select_current_word()
+  if !get(g:, 'coc_cursors_activated', 0)
+    return "\<Plug>(coc-cursors-word)"
+  endif
+  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
+endfunc
+
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
@@ -310,9 +319,25 @@ map <Leader>m :bprevious<CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+map <silent> <space>q :q<CR>
+
+" Remap for do codeAction of current line
+nmap <Leader>ac  <Plug>(coc-codeaction)
+nmap <space><space> :CocList grep<cr>
+nmap <space>o :CocList outline<cr>
+nmap <space>; :CocList buffers<cr>
+nmap <space>, :CocList files<cr>
+nmap <space>l :CocList symbols<cr>
+
+nnoremap <silent> <space>g  :<C-u>CocList  gstatus<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! CocCurrentFunction()
+    return get(b:, 'coc_current_function', '')
+endfunction
+
 function! LightlineGitBlame() abort
   let blame = get(b:, 'coc_git_blame', '')
   " return blame

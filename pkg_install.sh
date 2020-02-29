@@ -22,6 +22,7 @@ libedit-dev \
 libncurses5-dev \
 libncursesw5-dev \
 xz-utils \
+exuberant-ctags \
 tk-dev \
 libffi-dev \
 liblzma-dev \
@@ -81,3 +82,9 @@ sudo usermod -aG docker ${USER}
 # docker-compose
 sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
+# Starship prompt
+curl -L https://starship.rs/install.sh -o starship-install.sh
+chmod +x starship-install.sh
+./starship-install.sh -y
+rm starship-install.sh
