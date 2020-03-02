@@ -8,6 +8,7 @@ sudo add-apt-repository -y ppa:mmstick76/alacritty
 # Prerequisites
 sudo apt install -y \
 alacritty \
+tmux \
 make \
 build-essential \
 libssl-dev \
@@ -38,8 +39,6 @@ PYTHON_VERSION=3.7.6
 NPM_VERSION=v12.16.1
 DOCKER_COMPOSE_VERSION=1.25.4
 
-# Oh-my-zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Neovim
 sudo curl -L https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -o /usr/local/bin/nv
@@ -88,3 +87,6 @@ curl -L https://starship.rs/install.sh -o starship-install.sh
 chmod +x starship-install.sh
 ./starship-install.sh -y
 rm starship-install.sh
+
+# Oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
