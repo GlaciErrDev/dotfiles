@@ -1,7 +1,7 @@
 ## Dotfiles
 
 ### How to install
-`git clone git@github.com:glacierrdev/dotfiles.git "${HOME}/.dotfiles" && cd "${HOME}/.dotfiles" && ./install`
+`git clone git@github.com:glacierrdev/dotfiles.git "${HOME}/.dotfiles" && cd "${HOME}/.dotfiles" && ./install.sh`
 
 ### Additional steps
 `./pkg_install.sh`
