@@ -2,12 +2,29 @@
     // python
     "python.jediEnabled": false,
 
-    //multiple curssors
+    // multiple curssors
     "cursors.nextKey": "<C-n>",
     "cursors.previousKey": "<C-p>",
     "cursors.cancelKey": "<esc>",
 
-    "list.source.files.args": ["--hidden", "--files"],
+    // also get results from hidden files except .git
+    "list.source.files.args": [
+    "--files",
+    "--no-heading",
+    "--ignore-case",
+    "--no-ignore",
+    "--hidden",
+    "--glob",
+    "!.git/*"
+    ],
+    "list.source.grep.args": [
+    "--no-heading",
+    "--ignore-case",
+    "--no-ignore",
+    "--hidden",
+    "--glob",
+    "!.git/*"
+    ]
 
-    "git.addGBlameToBufferVar": true
+
 }
