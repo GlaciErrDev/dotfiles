@@ -1,10 +1,8 @@
 [user]
 	name  = Mike Durnosvystov
-	email = glacierr.dev@gmail.com
-
+        email = glacierr.dev@gmail.com
 [github]
-	user = glacierrdev
-
+        user = glacierrdev
 [alias]
   	s = stash
 [core]
