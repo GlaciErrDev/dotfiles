@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 sudo apt update
 sudo apt upgrade -y
 
@@ -34,11 +35,9 @@ ca-certificates \
 software-properties-common \
 zsh
 
-
 PYTHON_VERSION=3.7.6
-NPM_VERSION=v12.16.1
+NPM_VERSION=12.16.0
 DOCKER_COMPOSE_VERSION=1.25.4
-
 
 # Neovim
 sudo curl -L https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -o /usr/local/bin/nv
@@ -46,11 +45,15 @@ sudo chmod +x /usr/local/bin/nv
 
 # Pyenv + python
 curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
 pyenv install ${PYTHON_VERSION} -v
 pyenv global ${PYTHON_VERSION}
 
 # Nodenv + npm
 curl -fsSL https://raw.githubusercontent.com/nodenv/nodenv-installer/master/bin/nodenv-installer | bash
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
 nodenv install ${NPM_VERSION} -v
 nodenv global ${NPM_VERSION}
 # ^
