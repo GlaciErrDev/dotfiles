@@ -10,7 +10,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -18,7 +18,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'schickling/vim-bufonly'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
-Plug 'jiangmiao/auto-pairs'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -43,6 +42,9 @@ let g:coc_global_extensions = [
   \'coc-docker',
   \'coc-sh',
   \'coc-git',
+  \'coc-prettier',
+  \'coc-yank',
+  \'coc-pairs',
 \]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -65,8 +67,8 @@ set autoindent
 set smartindent
 set expandtab
 
-" Give more space for displaying messages.
-set cmdheight=2
+" " Give more space for displaying messages.
+" set cmdheight=2
 
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
@@ -196,7 +198,7 @@ let g:lightline = {
     \ },
     \ 'colorscheme': 'PaperColor',
     \ 'component': {
-    \   'readonly': '%{&readonly?"":""}',
+    \   'readonly': '%{&readonly?"☣":""}',
     \ },
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
@@ -208,6 +210,8 @@ augroup langs
   autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 augroup end
 
+" grep word under cursor
+command! -nargs=+ -complete=custom,s:GrepArgs Rg exe 'CocList grep '.<q-args>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Maps
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -237,10 +241,9 @@ nmap <silent> [e <Plug>(coc-diagnostic-prev)
 nmap <silent> ]c <Plug>(coc-git-nextchunk)
 nmap <silent> [c <Plug>(coc-git-prevchunk)
 nmap <silent> <Leader>hp <Plug>(coc-git-chunkinfo)
-nmap <silent> <Leader>hb <Plug>(coc-git-commit)
 nmap <silent> <Leader>hr :<C-u>CocCommand git.chunkUndo<CR>
-nmap <silent> <Leader>hs :<C-u>CocCommand git.chunkStage<CR>
-nmap <silent> <Leader>hc :<C-u>terminal tig status<CR>i<CR>
+nmap <silent> <Leader>gb :Gblame<CR>
+nmap <silent> <Leader>hb <Plug>(coc-git-commit)
 
 nmap <F2> <Plug>(coc-rename)
 
@@ -248,14 +251,9 @@ nmap <F2> <Plug>(coc-rename)
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ <SID>CheckBackSpace() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -265,36 +263,10 @@ inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" grep word under cursor
-command! -nargs=+ -complete=custom,s:GrepArgs Rg exe 'CocList grep '.<q-args>
-
-function! s:GrepArgs(...)
-  let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
-        \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
-  return join(list, "\n")
-endfunction
-
-" Keymapping for grep word under cursor with interactive mode
-nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<CR>
+nnoremap <silent> K :call <SID>ShowDocumentation()<CR>
 
 " Multiple cursor
-nmap <expr> <silent> <Leader>d <SID>select_current_word()
-function! s:select_current_word()
-  if !get(g:, 'coc_cursors_activated', 0)
-    return "\<Plug>(coc-cursors-word)"
-  endif
-  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
-endfunc
+nmap <expr> <silent> <Leader>d <SID>SelectCurrentWord()
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -324,21 +296,51 @@ map <Leader>m :bprevious<CR>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-map <silent> <space>q :q<CR>
+map <silent> <space>q :qa!<CR>
 
+" Mappings using CoCList:
 " Remap for do codeAction of current line
 nmap <Leader>ac  <Plug>(coc-codeaction)
-nmap <space><space> :CocList grep<cr>
-nmap <space>o :CocList outline<cr>
-nmap <space>; :CocList buffers<cr>
-nmap <space>, :CocList files<cr>
-nmap <space>l :CocList symbols<cr>
+nnoremap <silent> <space><space> :CocList grep<cr>
+nnoremap <silent> <space>o :CocList outline<cr>
+nnoremap <silent> <space>; :CocList buffers<cr>
+nnoremap <silent> <space>, :CocList files<cr>
+nnoremap <silent> <space>l :CocList symbols<cr>
+nnoremap <silent> <space>e :CocList diagnostics<cr>
+nnoremap <silent> <space>g :CocList gstatus<cr>
 
-nnoremap <silent> <space>g  :<C-u>CocList  gstatus<CR>
-
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" Keymapping for grep word under cursor with interactive mode
+nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:CheckBackSpace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! s:SelectCurrentWord()
+  if !get(g:, 'coc_cursors_activated', 0)
+    return "\<Plug>(coc-cursors-word)"
+  endif
+  return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
+endfunc
+
+function! s:ShowDocumentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+function! s:GrepArgs(...)
+  let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',
+        \ '-e', '-regex', '-u', '-skip-vcs-ignores', '-t', '-extension']
+  return join(list, "\n")
+endfunction
+
 function! CocCurrentFunction()
     return get(b:, 'coc_current_function', '')
 endfunction
