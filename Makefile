@@ -137,7 +137,6 @@ install-oh-my-zsh: ## Install oh-my-zsh
 # got from :https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 # but disallow underscore in command names as we want some private to have format "_command-name"
 help: ## print command reference, same as just `make`
-	@printf "  Welcome to \033[36mcontainer\033[0m command refference.\n"
-	@printf "  If you wish to contribute, please follow guide at top section of \033[36mMakefile\033[0m.\n\n"
+	@printf "  Welcome to \033[36mpackage install\033[0m command refference.\n"
 	@printf "  Usage:\n    \033[36mmake <target> [..arguments]\033[0m\n\n  Targets:\n"
 	@grep -E '^[a-zA-Z-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "    \033[36m%-20s\033[0m %s\n", $$1, $$2}'
