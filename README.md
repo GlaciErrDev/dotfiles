@@ -1,10 +1,12 @@
 ## Dotfiles
 
-### How to install
-`git clone git@github.com:glacierrdev/dotfiles.git "${HOME}/.dotfiles" && cd "${HOME}/.dotfiles" && ./install.sh`
+### Dependencies
+* `sudo apt install git curl build-essential`
 
-### Additional steps
-`./pkg_install.sh`
+### How to install
+`git clone git@github.com:glacierrdev/dotfiles.git "${HOME}/.dotfiles" && cd "${HOME}/.dotfiles" && make setup`
+#### NOTE:
+* `starship` and `oh-my-zsh` require a password to change default shell.
 
 ### Docs
 https://github.com/anishathalye/dotbot
