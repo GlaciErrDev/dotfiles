@@ -43,8 +43,9 @@ let g:coc_global_extensions = [
   \'coc-sh',
   \'coc-git',
   \'coc-prettier',
-  \'coc-yank',
   \'coc-pairs',
+  \'coc-snippet',
+  \'coc-markdownlint'
 \]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -74,7 +75,7 @@ set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
 set wildignore+=*/__pycache__/*,*/.mypy_cache/*
 
-set statusline=-        " hide file name in statusline
+" set statusline=-        " hide file name in statusline
 set fillchars=stl:-     " fill active window's statusline with -
 set fillchars+=stlnc:-  " also fill inactive windows
 set fillchars+=vert:\|  " add a bar for vertical splits
@@ -135,8 +136,8 @@ set signcolumn=yes
 " => Advance configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:better_whitespace_enabled = 1
-let g:strip_whitespace_on_save = 1
+" Disable confirmation to strip whitespaces
+let g:strip_whitespace_confirm=0
 
 let NERDTreeHighlightCursorline=0
 let NERDTreeIgnore = [
@@ -198,7 +199,7 @@ let g:lightline = {
     \ },
     \ 'colorscheme': 'PaperColor',
     \ 'component': {
-    \   'readonly': '%{&readonly?"☣":""}',
+    \   'readonly': '%{&readonly?"r!":""}',
     \ },
     \ 'separator': { 'left': '', 'right': '' },
     \ 'subseparator': { 'left': '', 'right': '' }
