@@ -24,7 +24,9 @@
     "--hidden",
     "--glob",
     "!.git/*"
-    ]
+    ],
+
+    "markdownlint.onChange": false
 
 
 }
