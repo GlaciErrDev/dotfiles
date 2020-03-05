@@ -5,6 +5,7 @@
         user = glacierrdev
 [alias]
   	s = stash
+        poo = push origin HEAD
 [core]
 	editor = nv
 	excludesfile = ~/.dotfiles/gitignore
