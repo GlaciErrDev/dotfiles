@@ -44,7 +44,7 @@ let g:coc_global_extensions = [
   \'coc-git',
   \'coc-prettier',
   \'coc-pairs',
-  \'coc-snippet',
+  \'coc-snippets',
   \'coc-markdownlint'
 \]
 
