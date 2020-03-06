@@ -10,6 +10,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
@@ -44,8 +45,7 @@ let g:coc_global_extensions = [
   \'coc-git',
   \'coc-prettier',
   \'coc-pairs',
-  \'coc-snippets',
-  \'coc-markdownlint'
+  \'coc-snippets'
 \]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -136,8 +136,13 @@ set signcolumn=yes
 " => Advance configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Disable confirmation to strip whitespaces
-let g:strip_whitespace_confirm=0
+" Enable better whitespace plugin
+let g:better_whitespace_enabled = 1
+let g:strip_whitespace_on_save = 1
+" Don't ask for confirmation
+let g:strip_whitespace_confirm = 0
+" Strip white lines at end of file
+let g:strip_whitelines_at_eof = 1
 
 let NERDTreeHighlightCursorline=0
 let NERDTreeIgnore = [
