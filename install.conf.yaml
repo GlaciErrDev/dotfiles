@@ -7,6 +7,7 @@
 
 - link:
     ~/.fonts: fonts
+    ~/.aliases: aliases
     ~/.config/alacritty: alacritty
     ~/.gitconfig: gitconfig
     ~/.gitignore: gitignore
