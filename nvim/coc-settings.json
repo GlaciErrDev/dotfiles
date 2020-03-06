@@ -8,14 +8,13 @@
     "cursors.cancelKey": "<esc>",
 
     // also get results from hidden files except .git
+    "list.source.files.excludePatterns": ["**/.git/**", "**/__pycache__/**"],
     "list.source.files.args": [
     "--files",
     "--no-heading",
     "--ignore-case",
     "--no-ignore",
-    "--hidden",
-    "--glob",
-    "!.git/*"
+    "--hidden"
     ],
     "list.source.grep.args": [
     "--no-heading",
@@ -24,9 +23,5 @@
     "--hidden",
     "--glob",
     "!.git/*"
-    ],
-
-    "markdownlint.onChange": false
-
-
+    ]
 }
