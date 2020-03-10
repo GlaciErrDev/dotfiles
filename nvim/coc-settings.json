@@ -1,20 +1,26 @@
 {
-    // python
-    "python.jediEnabled": false,
-
     // multiple curssors
     "cursors.nextKey": "<C-n>",
     "cursors.previousKey": "<C-p>",
     "cursors.cancelKey": "<esc>",
 
     // also get results from hidden files except .git
-    "list.source.files.excludePatterns": ["**/.git/**", "**/__pycache__/**"],
+    "list.source.files.excludePatterns": [
+        "**/.git/**",
+        "**/__pycache__/**",
+        "**/.mypy_cache/**"
+    ],
     "list.source.files.args": [
     "--files",
     "--no-heading",
     "--ignore-case",
     "--no-ignore",
     "--hidden"
+    ],
+    "list.source.grep.excludePatterns": [
+        "**/.git/**",
+        "**/__pycache__/**",
+        "**/.mypy_cache/**"
     ],
     "list.source.grep.args": [
     "--no-heading",
@@ -23,5 +29,21 @@
     "--hidden",
     "--glob",
     "!.git/*"
-    ]
+    ],
+
+    // python
+    //"python.formatting.provider": "black",
+    "python.formatting.provider": "yapf",
+
+    "python.jediEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.enabled": true,
+
+    "sql.lintOnChange": false,
+
+    "coc.preferences.formatOnSaveFiletypes": ["markdown", "python", "javascript"],
+
+    "python.linting.ignorePatterns": ["**/site-packages/**/*.py"]
 }
