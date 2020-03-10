@@ -38,10 +38,13 @@ let g:coc_global_extensions = [
   \'coc-yaml',
   \'coc-python',
   \'coc-lists',
+  \'coc-lines',
   \'coc-tag',
+  \'coc-sql',
   \'coc-syntax',
   \'coc-docker',
   \'coc-sh',
+  \'coc-word',
   \'coc-git',
   \'coc-prettier',
   \'coc-pairs',
@@ -252,6 +255,9 @@ nmap <silent> <Leader>gb :Gblame<CR>
 nmap <silent> <Leader>hb <Plug>(coc-git-commit)
 
 nmap <F2> <Plug>(coc-rename)
+
+vmap <Leader>f  <Plug>(coc-format-selected)
+nmap <Leader>f  <Plug>(coc-format-selected)
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
