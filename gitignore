@@ -3,3 +3,5 @@
 
 .python-version
 .mypy_cache
+
+.vim/

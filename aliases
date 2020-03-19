@@ -56,3 +56,17 @@ function dcup() {
 function dco() {
     docker-compose "$@" ;
 }
+
+#########
+# Other #
+#########
+
+alias cddot='cd ~/.dotfiles'
+alias cdnot='cd ~/.notes'
+
+# Make a local virtualenv
+function local-venv() {
+        pyenv virtualenv "${PWD##*/}";
+        pyenv local "${PWD##*/}";
+        pip install flake8 mypy pylint neovim yapf rope;
+}
