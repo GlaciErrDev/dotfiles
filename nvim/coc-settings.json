@@ -43,7 +43,7 @@
 
     "sql.lintOnChange": false,
 
-    "coc.preferences.formatOnSaveFiletypes": ["markdown", "python", "javascript"],
+    // "coc.preferences.formatOnSaveFiletypes": ["markdown", "python", "javascript"],
 
     "python.linting.ignorePatterns": ["**/site-packages/**/*.py"]
 }
