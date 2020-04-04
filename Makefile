@@ -1,13 +1,13 @@
 .DEFAULT_GOAL := help
 
+GOLANG_VERSION=1.14/stable
 PYTHON_VERSION=3.7.6
 NPM_VERSION=12.16.0
 RG_VERSION=11.0.2
 DOCKER_COMPOSE_VERSION=1.25.4
 
 .PHONY: setup
-setup: checkplatform install-dotfiles update-upgrade add-alacritty-repo apt-install-packages install-neovim install-pyenv-python install-nodenv-node-yarn install-ripgrep install-fzf install-docker install-docker-compose install-starship install-oh-my-zsh  ## Install all things for development environment
-	@printf "\033[92m=========Installing all packages and libraries=========\033[0m\n\n"
+setup: checkplatform install-dotfiles update-upgrade add-alacritty-repo snap-install-golang apt-install-packages install-neovim install-pyenv-python install-nodenv-node-yarn install-ripgrep install-fzf install-docker install-docker-compose install-oh-my-zsh  ## Install development environment
 
 .PHONY: checkplatform
 checkplatform: ## Check platform for installation
@@ -35,6 +35,11 @@ update-upgrade: ## Update info from sources and upgrade local packages
 add-alacritty-repo: ## Add repo with alacritty deb
 	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
 	@sudo add-apt-repository -y ppa:mmstick76/alacritty
+
+.PHONY: snap-install-golang
+snap-install-golang: ## Install golang
+	@printf "\033[92m=========Install golang=========\033[0m\n\n"
+	@sudo snap install --classic --channel=${GOLANG_VERSION} go
 
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
@@ -121,13 +126,13 @@ install-docker-compose: ## Install docker-compose
 	@sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 	@sudo chmod +x /usr/local/bin/docker-compose
 
-.PHONY: install-starship
-install-starship: ## Install starship prompt
-	@printf "\033[92m=========Install starship prompt=========\033[0m\n\n"
-	@curl -L https://starship.rs/install.sh -o starship-install.sh
-	@chmod +x starship-install.sh
-	@./starship-install.sh -y
-	@rm starship-install.sh
+# .PHONY: install-starship
+# install-starship: ## Install starship prompt
+#         @printf "\033[92m=========Install starship prompt=========\033[0m\n\n"
+#         @curl -L https://starship.rs/install.sh -o starship-install.sh
+#         @chmod +x starship-install.sh
+#         @./starship-install.sh -y
+#         @rm starship-install.sh
 
 .PHONY: install-oh-my-zsh
 install-oh-my-zsh: ## Install oh-my-zsh

@@ -15,8 +15,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
 Plug 'schickling/vim-bufonly'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'roman/golden-ratio'
@@ -32,6 +32,7 @@ call plug#end()
 
 " coc.nvim specific
 let g:coc_global_extensions = [
+  \'coc-go',
   \'coc-json',
   \'coc-tsserver',
   \'coc-html',
@@ -73,8 +74,8 @@ set autoindent
 set smartindent
 set expandtab
 
-" " Give more space for displaying messages.
-" set cmdheight=2
+" Give more space for displaying messages.
+set cmdheight=2
 
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
@@ -218,7 +219,8 @@ let g:lightline = {
 augroup langs
   autocmd!
   autocmd BufNewFile,BufRead Dockerfile* set syntax=dockerfile
-  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=100 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd FileType go setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=100 fileformat=unix cinwords=if,else,switch,select,case,for,type,import,const,func
 augroup end
 
 " grep word under cursor
@@ -310,6 +312,9 @@ map <Leader>. :bnext<CR>
 map <Leader>m :bprevious<CR>
 
 " EasyAlign
+" selection -> ga=
+" vipga=
+" gaip=
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
@@ -327,10 +332,14 @@ nnoremap <silent> <space>g :CocList gstatus<cr>
 " Keymapping for grep word under cursor with interactive mode
 nnoremap <silent> <Leader>cf :exe 'CocList -I --input='.expand('<cword>').' grep'<cr>
 
-
 " Remap for do codeAction of selected region
 nmap <silent> <Leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 xmap <silent> <Leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -8,6 +8,7 @@
 - link:
     ~/.fonts: fonts
     ~/.aliases: aliases
+    ~/.helpful_functions: helpful_functions
     ~/.config/alacritty: alacritty
     ~/.gitconfig: gitconfig
     ~/.gitignore: gitignore
@@ -22,4 +23,3 @@
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - 'grep starship ~/.zshrc && exit 0 || echo "eval \"\$(starship init zsh)\"" >> ~/.zshrc'

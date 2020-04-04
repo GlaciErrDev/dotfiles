@@ -1,0 +1,15 @@
+#####################
+# Helpful functions #
+#####################
+
+# Make a local virtualenv
+function local-venv() {
+        pyenv virtualenv "${PWD##*/}";
+        pyenv local "${PWD##*/}";
+        pip install flake8 mypy pylint neovim yapf rope;
+}
+
+# Initialize go mod for current directory
+function init-gomod() {
+        go mod init glacierrdev/"${PWD##*/}";
+}
