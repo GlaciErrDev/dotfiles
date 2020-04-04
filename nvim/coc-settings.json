@@ -31,19 +31,18 @@
     "!.git/*"
     ],
 
-    // python
-    //"python.formatting.provider": "black",
+    // [python]
     "python.formatting.provider": "yapf",
-
+    //"python.formatting.provider": "black",
     "python.jediEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": true,
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
+    "python.linting.ignorePatterns": ["**/site-packages/**/*.py"],
+    "python.pythonPath": "python",
 
     "sql.lintOnChange": false,
 
-    // "coc.preferences.formatOnSaveFiletypes": ["markdown", "python", "javascript"],
-
-    "python.linting.ignorePatterns": ["**/site-packages/**/*.py"]
+    "coc.preferences.formatOnSaveFiletypes": ["markdown", "go", "javascript"]
 }
