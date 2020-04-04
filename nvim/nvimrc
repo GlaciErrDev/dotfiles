@@ -43,6 +43,7 @@ let g:coc_global_extensions = [
   \'coc-lines',
   \'coc-tag',
   \'coc-sql',
+  \'coc-highlight',
   \'coc-syntax',
   \'coc-docker',
   \'coc-sh',
