@@ -14,12 +14,13 @@ checkplatform: ## Check platform for installation
 ifneq ($(shell uname),Linux)
 	@echo 'Platform unsupported, only available for Linux'  && exit 1
 endif
-ifneq ($(shell lsb_release -s -r),18.04)
+ifneq ($(shell lsb_release -s -r),$(filter $(shell lsb_release -s -r),18.04 20.04))
 	@echo 'Platform unsupported, only available for Ubuntu 18.04'  && exit 1
 endif
 ifeq ($(strip $(shell which apt-get)),)
 	@echo 'Platform unsupported, apt-get not found' && exit 1
 endif
+	@echo "This platform is supported."
 
 .PHONY: install-dotfiles
 install-dotfiles: ## Install dotfiles
@@ -125,14 +126,6 @@ install-docker-compose: ## Install docker-compose
 	@printf "\033[92m=========Install docker-compose=========\033[0m\n\n"
 	@sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 	@sudo chmod +x /usr/local/bin/docker-compose
-
-# .PHONY: install-starship
-# install-starship: ## Install starship prompt
-#         @printf "\033[92m=========Install starship prompt=========\033[0m\n\n"
-#         @curl -L https://starship.rs/install.sh -o starship-install.sh
-#         @chmod +x starship-install.sh
-#         @./starship-install.sh -y
-#         @rm starship-install.sh
 
 .PHONY: install-oh-my-zsh
 install-oh-my-zsh: ## Install oh-my-zsh
