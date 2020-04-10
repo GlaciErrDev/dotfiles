@@ -7,6 +7,7 @@
 
 - link:
     ~/.fonts: fonts
+    ~/.zsh_custom: zsh_custom
     ~/.aliases: aliases
     ~/.helpful_functions: helpful_functions
     ~/.config/alacritty: alacritty

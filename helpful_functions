@@ -13,3 +13,8 @@ function local-venv() {
 function init-gomod() {
         go mod init glacierrdev/"${PWD##*/}";
 }
+
+# Get the current name of virtualenv
+function virtualenv_info() {
+        [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`')'
+}
