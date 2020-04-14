@@ -132,7 +132,7 @@ install-oh-my-zsh: ## Install oh-my-zsh
 	@printf "\033[92m=========Install oh-my-zsh=========\033[0m\n\n"
 	@rm -rf ${HOME}/.oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
-	chsh -s $(shell which zsh)
+	if [ $SHELL != "/bin/zsh" ]; then chsh -s $(which zsh); fi;
 
 
 .PHONY: help
