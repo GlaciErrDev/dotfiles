@@ -5,7 +5,9 @@ ZSH_THEME="custom"
 
 plugins=(git)
 
+export ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
+
 source $HOME/.aliases
 source $HOME/.helpful_functions
 
