@@ -7,20 +7,34 @@ RG_VERSION=11.0.2
 DOCKER_COMPOSE_VERSION=1.25.4
 
 .PHONY: setup
-setup: checkplatform install-dotfiles update-upgrade add-alacritty-repo snap-install-golang apt-install-packages install-neovim install-pyenv-python install-nodenv-node-yarn install-ripgrep install-fzf install-docker install-docker-compose install-oh-my-zsh  ## Install development environment
+setup: checkplatform \
+  install-dotfiles \
+  update-upgrade \
+  add-alacritty-repo \
+  snap-install-golang \
+  apt-install-packages \
+  install-neovim \
+  install-pyenv-python \
+  install-nodenv-node-yarn \
+  install-ripgrep \
+  install-fzf \
+  install-docker \
+  install-docker-compose \
+  install-oh-my-zsh ## Install development environment
 
 .PHONY: checkplatform
 checkplatform: ## Check platform for installation
+	@printf "\033[92m=========Check platform=========\033[0m\n\n"
 ifneq ($(shell uname),Linux)
-	@echo 'Platform unsupported, only available for Linux'  && exit 1
+	@echo '\033[91mPlatform unsupported, only available for Linux\033[0m\n'  && exit 1
 endif
 ifneq ($(shell lsb_release -s -r),$(filter $(shell lsb_release -s -r),18.04 20.04))
-	@echo 'Platform unsupported, only available for Ubuntu 18.04'  && exit 1
+	@echo '\033[91mPlatform unsupported, only available for Ubuntu 18.04\033[0m\n'  && exit 1
 endif
 ifeq ($(strip $(shell which apt-get)),)
-	@echo 'Platform unsupported, apt-get not found' && exit 1
+	@echo '\033[91mPlatform unsupported, apt-get not found\033[0m\n' && exit 1
 endif
-	@echo "This platform is supported."
+	@echo "\033[92mThis platform is supported.\033[0m\n"
 
 .PHONY: install-dotfiles
 install-dotfiles: ## Install dotfiles
@@ -45,7 +59,7 @@ snap-install-golang: ## Install golang
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
 	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
-	@sudo apt install -y alacritty tmux make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libedit-dev libncurses5-dev libncursesw5-dev xz-utils exuberant-ctags tk-dev libffi-dev liblzma-dev python-openssl git apt-transport-https ca-certificates software-properties-common zsh
+	@sudo apt install -y alacritty tmux make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libedit-dev libncurses5-dev libncursesw5-dev xz-utils exuberant-ctags tk-dev libffi-dev liblzma-dev python-openssl git apt-transport-https ca-certificates software-properties-common zsh xsel
 
 .PHONY: install-neovim
 install-neovim: ## Install neovim
