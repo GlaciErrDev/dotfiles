@@ -32,6 +32,7 @@
     ],
 
     // [python]
+    "python.pythonPath": "python",
     "python.formatting.provider": "yapf",
     //"python.formatting.provider": "black",
     "python.jediEnabled": false,
@@ -40,7 +41,6 @@
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
     "python.linting.ignorePatterns": ["**/site-packages/**/*.py"],
-    "python.pythonPath": "python",
 
     "sql.lintOnChange": false,
 
