@@ -10,6 +10,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'rhysd/conflict-marker.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
@@ -142,6 +143,19 @@ set signcolumn=yes
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Advance configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" disable the default highlight group
+let g:conflict_marker_highlight_group = ''
+
+" Include text after begin and end markers
+let g:conflict_marker_begin = '^<<<<<<< .*$'
+let g:conflict_marker_end   = '^>>>>>>> .*$'
+
+highlight ConflictMarkerBegin guibg=#576EB3 guifg=#FFFFFF
+highlight ConflictMarkerOurs guibg=#61B85C guifg=#FFFFFF
+highlight ConflictMarkerSeparator guibg=#D40F0F guifg=#FFFFFF
+highlight ConflictMarkerTheirs guibg=#6486B8 guifg=#FFFFFF
+highlight ConflictMarkerEnd guibg=#576EB3 guifg=#FFFFFF
 
 " Enable better whitespace plugin
 let g:better_whitespace_enabled = 1
