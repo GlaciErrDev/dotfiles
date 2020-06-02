@@ -13,6 +13,7 @@ setup: checkplatform \
   add-alacritty-repo \
   snap-install-golang \
   apt-install-packages \
+  install-tpm \
   install-neovim \
   install-pyenv-python \
   install-nodenv-node-yarn \
@@ -59,7 +60,40 @@ snap-install-golang: ## Install golang
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
 	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
-	@sudo apt install -y alacritty tmux make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libedit-dev libncurses5-dev libncursesw5-dev xz-utils exuberant-ctags tk-dev libffi-dev liblzma-dev python-openssl git apt-transport-https ca-certificates software-properties-common zsh xsel
+	@sudo apt install -y \
+	  alacritty \
+	  tmux \
+	  make \
+	  build-essential \
+	  libssl-dev \
+	  zlib1g-dev \
+	  libbz2-dev \
+	  libreadline-dev \
+	  libsqlite3-dev \
+	  wget \
+	  curl \
+	  llvm \
+	  libedit-dev \
+	  libncurses5-dev \
+	  libncursesw5-dev \
+	  xz-utils \
+	  exuberant-ctags \
+	  tk-dev \
+	  libffi-dev \
+	  liblzma-dev \
+	  python-openssl \
+	  git \
+	  apt-transport-https \
+	  ca-certificates \
+	  software-properties-common \
+	  zsh \
+	  xsel \
+	  urlview
+
+.PHONY: install-tpm
+install-tpm: ## Install tmux plugin manager
+	@printf "\033[92m=========Install tmux plugin manager=========\033[0m\n\n"
+	@git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 .PHONY: install-neovim
 install-neovim: ## Install neovim
