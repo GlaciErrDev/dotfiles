@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-GOLANG_VERSION=1.14/stable
+GOLANG_VERSION=1.14.4
 PYTHON_VERSION=3.7.6
 NPM_VERSION=12.16.0
 RG_VERSION=11.0.2
@@ -10,11 +10,9 @@ DOCKER_COMPOSE_VERSION=1.25.4
 setup: checkplatform \
   install-dotfiles \
   update-upgrade \
-  add-alacritty-repo \
-  snap-install-golang \
   apt-install-packages \
+  install-golang \
   install-tpm \
-  install-neovim \
   install-pyenv-python \
   install-nodenv-node-yarn \
   install-ripgrep \
@@ -52,16 +50,18 @@ add-alacritty-repo: ## Add repo with alacritty deb
 	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
 	@sudo add-apt-repository -y ppa:mmstick76/alacritty
 
-.PHONY: snap-install-golang
-snap-install-golang: ## Install golang
+.PHONY: install-golang
+install-golang: ## Install golang
 	@printf "\033[92m=========Install golang=========\033[0m\n\n"
 	@sudo snap install --classic --channel=${GOLANG_VERSION} go
+	@wget https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz
+	@tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
+	@sudo tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
 	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
 	@sudo apt install -y \
-	  alacritty \
 	  tmux \
 	  make \
 	  build-essential \
@@ -86,8 +86,10 @@ apt-install-packages: ## Install all packages and libraries with `apt intsall`
 	  apt-transport-https \
 	  ca-certificates \
 	  software-properties-common \
+	  gnupg-agent \
 	  zsh \
 	  xsel \
+	  nvim \
 	  urlview
 
 .PHONY: install-tpm
@@ -118,6 +120,7 @@ install-python: ## Install python
 	@PATH=$(PYENV_PATH) eval "$(pyenv init -)"
 	@PATH=$(PYENV_PATH) pyenv install ${PYTHON_VERSION} -v
 	@PATH=$(PYENV_PATH) pyenv global ${PYTHON_VERSION}
+	@PATH=$(PYENV_PATH) pip install flake8 mypy pylint neovim yapf rope
 
 .PHONY: install-nodenv-node-yarn
 install-nodenv-node-yarn: install-nodenv install-node install-yarn  ## Install nodenv and node
@@ -138,6 +141,7 @@ install-node: ## Install node
 	@PATH=$(NODENV_PATH) eval "$(nodenv init -)"
 	@PATH=$(NODENV_PATH) nodenv install ${NPM_VERSION} -v
 	@PATH=$(NODENV_PATH) nodenv global ${NPM_VERSION}
+	@PATH=$(NODENV_PATH) npm install -g neovim
 
 .PHONY: install-yarn
 install-yarn: ## Install yarn
@@ -162,11 +166,10 @@ install-fzf: ## Install fzf
 install-docker: ## Install docker
 	@printf "\033[92m=========Install docker=========\033[0m\n\n"
 	@curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	@echo "NOTE: Ubuntu 18.04 Bionic"
-	@sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+	@sudo apt-key fingerprint 0EBFCD88
+	@sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge"
 	@sudo apt update
 	@sudo apt install -y docker-ce
-	@sudo systemctl status docker | cat
 	@sudo usermod -aG docker ${USER}
 
 .PHONY: install-docker-compose
@@ -180,7 +183,7 @@ install-oh-my-zsh: ## Install oh-my-zsh
 	@printf "\033[92m=========Install oh-my-zsh=========\033[0m\n\n"
 	@rm -rf ${HOME}/.oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
-	if [ $SHELL != "/bin/zsh" ]; then chsh -s $(which zsh); fi;
+	if [ $SHELL != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
 
 
 .PHONY: help
