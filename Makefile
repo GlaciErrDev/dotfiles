@@ -10,6 +10,7 @@ DOCKER_COMPOSE_VERSION=1.25.4
 setup: checkplatform \
   install-dotfiles \
   update-upgrade \
+  add-alacritty-repo \
   apt-install-packages \
   install-golang \
   install-tpm \
@@ -53,17 +54,17 @@ add-alacritty-repo: ## Add repo with alacritty deb
 .PHONY: install-golang
 install-golang: ## Install golang
 	@printf "\033[92m=========Install golang=========\033[0m\n\n"
-	@sudo snap install --classic --channel=${GOLANG_VERSION} go
 	@wget https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz
-	@tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
 	@sudo tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
-	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
+	@printf "\033[92m=========Install all packages=========\033[0m\n\n"
 	@sudo apt install -y \
+	  alacritty \
 	  tmux \
 	  make \
+	  htop \
 	  build-essential \
 	  libssl-dev \
 	  zlib1g-dev \
@@ -89,7 +90,7 @@ apt-install-packages: ## Install all packages and libraries with `apt intsall`
 	  gnupg-agent \
 	  zsh \
 	  xsel \
-	  nvim \
+	  neovim \
 	  urlview
 
 .PHONY: install-tpm
@@ -120,6 +121,7 @@ install-python: ## Install python
 	@PATH=$(PYENV_PATH) eval "$(pyenv init -)"
 	@PATH=$(PYENV_PATH) pyenv install ${PYTHON_VERSION} -v
 	@PATH=$(PYENV_PATH) pyenv global ${PYTHON_VERSION}
+	# FIX ME
 	@PATH=$(PYENV_PATH) pip install flake8 mypy pylint neovim yapf rope
 
 .PHONY: install-nodenv-node-yarn
@@ -167,7 +169,7 @@ install-docker: ## Install docker
 	@printf "\033[92m=========Install docker=========\033[0m\n\n"
 	@curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 	@sudo apt-key fingerprint 0EBFCD88
-	@sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) edge"
+	@sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` stable"
 	@sudo apt update
 	@sudo apt install -y docker-ce
 	@sudo usermod -aG docker ${USER}
