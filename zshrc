@@ -12,10 +12,9 @@ source $HOME/.aliases
 source $HOME/.helpful_functions
 
 export LANG=en_US.UTF-8
-export TERM="screen-256color"
 
 # golang
-export PATH=$PATH:$(go env GOROOT)/bin
+export PATH=$PATH:/usr/local/go/bin
 
 # Pyenv
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
@@ -26,6 +25,12 @@ eval "$(pyenv virtualenv-init -)"
 # Nodenv
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
+
+# It is a temporary workaround for this issue
+# https://github.com/microsoft/WSL/issues/4148
+# if [ ! -e "$WSL_INTEROP" ]; then
+#         export WSL_INTEROP=/run/WSL/`ls /run/WSL/|awk 'NR==1{print}'`
+# fi
 
 # --files: List files that would be searched but do not search
 # --no-ignore: Do not respect .gitignore, etc...
