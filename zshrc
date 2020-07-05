@@ -28,9 +28,9 @@ eval "$(nodenv init -)"
 
 # It is a temporary workaround for this issue
 # https://github.com/microsoft/WSL/issues/4148
-if [ ! -e "$WSL_INTEROP" ]; then
-	export WSL_INTEROP=/run/WSL/`ls /run/WSL/|awk 'NR==1{print}'`
-fi
+# if [ ! -e "$WSL_INTEROP" ]; then
+#         export WSL_INTEROP=/run/WSL/`ls /run/WSL/|awk 'NR==1{print}'`
+# fi
 
 # --files: List files that would be searched but do not search
 # --no-ignore: Do not respect .gitignore, etc...

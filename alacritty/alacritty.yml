@@ -32,12 +32,13 @@ colors:
 
 font:
   normal:
-    family: Hack NF
+    family: MesloLGS Nerd Font Mono
     style: Regular
   bold:
-    family: Hack NF
+    family: MesloLGS Nerd Font Mono
   italic:
-    family: Hack NF
+    family: MesloLGS Nerd Font Mono
+  size: 14.0
 
 # font:
 #   normal:
