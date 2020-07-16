@@ -91,7 +91,8 @@ apt-install-packages: ## Install all packages and libraries with `apt intsall`
 	  zsh \
 	  xsel \
 	  neovim \
-	  urlview
+	  urlview \
+	  jq
 
 .PHONY: install-tpm
 install-tpm: ## Install tmux plugin manager
