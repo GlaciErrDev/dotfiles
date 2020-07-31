@@ -33,6 +33,7 @@
 
     // [python]
     "python.pythonPath": "python",
+    "python.autoComplete.extraPaths": [ "./**" ],
     "python.formatting.provider": "yapf",
     //"python.formatting.provider": "black",
     "python.jediEnabled": false,
