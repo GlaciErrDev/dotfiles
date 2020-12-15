@@ -24,3 +24,6 @@
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
+  - touch ~/.private_aliases
+  - touch ~/.private_functions
+  - touch ~/.additional_exports
