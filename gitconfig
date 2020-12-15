@@ -1,8 +1,3 @@
-[user]
-	name  = Mike Durnosvystov
-        email = glacierr.dev@gmail.com
-[github]
-        user = glacierrdev
 [alias]
   	s = stash
         poo = push origin HEAD

@@ -235,7 +235,7 @@ augroup langs
   autocmd!
   autocmd BufNewFile,BufRead Dockerfile* set syntax=dockerfile
   autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=100 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  autocmd FileType go setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=100 fileformat=unix cinwords=if,else,switch,select,case,for,type,import,const,func
+  autocmd FileType go setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=140 fileformat=unix cinwords=if,else,switch,select,case,for,type,import,const,func
 augroup end
 
 " grep word under cursor
@@ -273,7 +273,11 @@ nmap <silent> <Leader>hr :<C-u>CocCommand git.chunkUndo<CR>
 nmap <silent> <Leader>gb :Gblame<CR>
 nmap <silent> <Leader>hb <Plug>(coc-git-commit)
 
-nmap <F2> <Plug>(coc-rename)
+nmap <silent> <Leader>rr <Plug>(coc-rename)
+
+" project rename word
+nnoremap <Leader>prw :<C-U>CocSearch <C-R>=expand("<cword>")<CR><CR>
+vnoremap <Leader>prw :<C-U>CocSearch <C-R>=expand("<cword>")<CR><CR>
 
 nmap <Leader><C-s> <Plug>MarkdownPreview
 nmap <Leader><C-p> <Plug>MarkdownPreviewStop
@@ -301,6 +305,10 @@ nnoremap <silent> K :call <SID>ShowDocumentation()<CR>
 
 " Multiple cursor
 nmap <expr> <silent> <Leader>d <SID>SelectCurrentWord()
+
+" Format JSON
+nnoremap <silent> <Leader>fj :call <SID>NFormatJSON()<CR>
+vnoremap <silent> <Leader>fj :call <SID>VFormatJSON()<CR>
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -413,4 +421,12 @@ function! VisualSelection(direction, extra_filter) range
 
   let @/ = l:pattern
   let @" = l:saved_reg
+endfunction
+
+function! s:NFormatJSON()
+  :%!jq
+endfunction
+
+function! s:VFormatJSON()
+  :'<,'>!jq
 endfunction
