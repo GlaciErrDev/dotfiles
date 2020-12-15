@@ -7,6 +7,7 @@
     // also get results from hidden files except .git
     "list.source.files.excludePatterns": [
         "**/.git/**",
+        "**/.tox/**",
         "**/__pycache__/**",
         "**/.mypy_cache/**"
     ],
@@ -14,13 +15,15 @@
     "--files",
     "--no-heading",
     "--ignore-case",
-    "--no-ignore",
+    // "--no-ignore",
     "--hidden"
     ],
     "list.source.grep.excludePatterns": [
+        "**/.tox/**",
         "**/.git/**",
         "**/__pycache__/**",
-        "**/.mypy_cache/**"
+        "**/.mypy_cache/**",
+        "**/vendor/**"
     ],
     "list.source.grep.args": [
     "--no-heading",
