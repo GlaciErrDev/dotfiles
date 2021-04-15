@@ -1,4 +1,4 @@
-PROMPT=$'%{$fg[red]%}%c%{$reset_color%} %{$fg[blue]%}$(virtualenv_info)%{$reset_color%}% $(git_prompt_info)\
+PROMPT=$'%{$fg[red]%}%c%{$reset_color%} %{$fg[blue]%}$(virtualenv_info)%{$reset_color%}% $(git_prompt_info) $(u8s prompt) \
 %{$fg[blue]%}->%{$reset_color%} '
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}["

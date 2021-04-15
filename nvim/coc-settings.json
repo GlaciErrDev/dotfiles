@@ -7,6 +7,8 @@
     // also get results from hidden files except .git
     "list.source.files.excludePatterns": [
         "**/.git/**",
+        "**/.vim/**",
+        "**/.ropeproject/**",
         "**/.tox/**",
         "**/__pycache__/**",
         "**/.mypy_cache/**"
@@ -20,6 +22,8 @@
     ],
     "list.source.grep.excludePatterns": [
         "**/.tox/**",
+        "**/.vim/**",
+        "**/.ropeproject/**",
         "**/.git/**",
         "**/__pycache__/**",
         "**/.mypy_cache/**",

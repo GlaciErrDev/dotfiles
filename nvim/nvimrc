@@ -75,11 +75,12 @@ set showtabline=2
 set autoindent
 set smartindent
 set expandtab
+set fileformat=unix
 
 " Give more space for displaying messages.
 set cmdheight=2
 
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*/.vim/*
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*.DS_Store*
 set wildignore+=*/__pycache__/*,*/.mypy_cache/*
 
@@ -170,7 +171,7 @@ let NERDTreeIgnore = [
     \'\.undodir$','\.pyc$', '__pycache__$',
     \'\.git$', '\.pytest_cache$', '\.idea$', 'build$',
     \'dist$', '\.egg-info$', '\.vscode$', '\.mypy_cache$',
-    \'.DS_Store$'
+    \'.DS_Store$', '\.vim$'
     \]
 let NERDTreeChDirMode=2
 let NERDTreeShowHidden=1

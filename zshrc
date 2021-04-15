@@ -1,4 +1,5 @@
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_CUSTOM=$HOME/.zsh_custom
