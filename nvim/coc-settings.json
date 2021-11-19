@@ -1,4 +1,5 @@
 {
+    "java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar -Xbootclasspath/a:/usr/local/share/lombok/lombok.jar",
     // multiple curssors
     "cursors.nextKey": "<C-n>",
     "cursors.previousKey": "<C-p>",
@@ -41,6 +42,7 @@
     //"python.formatting.provider": "black",
     "python.jediEnabled": false,
     "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": ["--max-line-length=120"],
     "python.linting.pylintEnabled": true,
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,

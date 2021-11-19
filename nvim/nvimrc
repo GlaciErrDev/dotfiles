@@ -53,6 +53,7 @@ let g:coc_global_extensions = [
   \'coc-prettier',
   \'coc-pairs',
   \'coc-actions',
+  \'coc-rust-analyzer',
   \'coc-snippets'
 \]
 
@@ -111,8 +112,8 @@ set incsearch
 set ignorecase
 set smartcase
 set lazyredraw
-set textwidth=99
-set colorcolumn=99
+set textwidth=119
+set colorcolumn=119
 set encoding=utf8
 
 set novisualbell
@@ -172,6 +173,7 @@ let NERDTreeIgnore = [
     \'dist$', '\.egg-info$', '\.vscode$', '\.mypy_cache$',
     \'.DS_Store$'
     \]
+let NERDTreeWinSize=60
 let NERDTreeChDirMode=2
 let NERDTreeShowHidden=1
 let NERDTreeDirArrows=1
@@ -234,7 +236,7 @@ let g:lightline = {
 augroup langs
   autocmd!
   autocmd BufNewFile,BufRead Dockerfile* set syntax=dockerfile
-  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=100 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=120 fileformat=unix cinwords=if,elif,else,for,while,try,except,finally,def,class,with
   autocmd FileType go setlocal tabstop=8 softtabstop=8 shiftwidth=8 textwidth=140 fileformat=unix cinwords=if,else,switch,select,case,for,type,import,const,func
 augroup end
 
@@ -389,6 +391,16 @@ function! s:ShowDocumentation()
     call CocAction('doHover')
   endif
 endfunction
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 function! s:GrepArgs(...)
   let list = ['-S', '-smartcase', '-i', '-ignorecase', '-w', '-word',

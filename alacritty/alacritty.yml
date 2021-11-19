@@ -1,5 +1,5 @@
 scrolling:
-  history: 10000
+  history: 20000
 
 # Colors (PaperColor - Light)
 colors:
@@ -32,12 +32,15 @@ colors:
 
 font:
   normal:
-    family: Hack NF
+    family: "Hack Nerd Font"
+    # family: Hack NF
     style: Regular
   bold:
-    family: Hack NF
+    family: "Hack Nerd Font"
+    # family: Hack NF
   italic:
-    family: Hack NF
+    family: "Hack Nerd Font"
+    # family: Hack NF
   size: 14.0
 
 # font:
