@@ -63,3 +63,16 @@ function dco() {
 
 alias cddot='cd ~/.dotfiles'
 alias cdnot='cd ~/.notes'
+
+############
+# Mac apps #
+############
+
+alias chrome="/Applications/Google\\ \\Chrome.app/Contents/MacOS/Google\\ \\Chrome"
+
+
+#######
+# Git #
+#######
+
+alias ggpullup='git pull upstream "$(git_current_branch)"'
