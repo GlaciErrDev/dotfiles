@@ -1,25 +1,35 @@
 .DEFAULT_GOAL := help
 
-GOLANG_VERSION=1.14.4
-PYTHON_VERSION=3.9.5
-NPM_VERSION=12.16.0
-RG_VERSION=12.1.1
+GOLANG_VERSION=1.18
+PYTHON_VERSION=3.10.4
+NODE_VERSION=16.14.2
+RG_VERSION=13.0.0
 DOCKER_COMPOSE_VERSION=1.25.4
 
+# .PHONY: setup
+# setup: checkplatform \
+#  install-dotfiles \
+#  update-upgrade \
+#  add-alacritty-repo \
+#  apt-install-packages \
+#  install-golang \
+#  install-tpm \
+#  install-pyenv-python \
+#  install-nodenv-node-yarn \
+#  install-ripgrep \
+#  install-fzf \
+#  install-docker \
+#  install-docker-compose \
+#  install-oh-my-zsh ## Install development environment
+
+
 .PHONY: setup
-setup: checkplatform \
-  install-dotfiles \
-  update-upgrade \
-  add-alacritty-repo \
-  apt-install-packages \
-  install-golang \
+setup: install-dotfiles \
+  install-packages \
   install-tpm \
   install-pyenv-python \
   install-nodenv-node-yarn \
-  install-ripgrep \
   install-fzf \
-  install-docker \
-  install-docker-compose \
   install-oh-my-zsh ## Install development environment
 
 .PHONY: checkplatform
@@ -54,8 +64,19 @@ add-alacritty-repo: ## Add repo with alacritty deb
 .PHONY: install-golang
 install-golang: ## Install golang
 	@printf "\033[92m=========Install golang=========\033[0m\n\n"
-	@wget https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz
+	@curl -fsSL https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz
 	@sudo tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
+
+.PHONY: install-packages
+install-packages: ## Install brew packages
+	@printf "\033[92m=========Install all packages=========\033[0m\n\n"
+	@brew install \
+	  tmux \
+	  golang \
+	  htop \
+	  urlview \
+	  ripgrep \
+	  jq
 
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
