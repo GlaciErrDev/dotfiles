@@ -2,7 +2,7 @@
 
 GOLANG_VERSION=1.18
 PYTHON_VERSION=3.10.4
-NODE_VERSION=16.14.2
+NODE_VERSION=16.15.0
 RG_VERSION=13.0.0
 DOCKER_COMPOSE_VERSION=1.25.4
 
@@ -72,7 +72,9 @@ install-packages: ## Install brew packages
 	@printf "\033[92m=========Install all packages=========\033[0m\n\n"
 	@brew install \
 	  tmux \
+	  neovim \
 	  golang \
+	  exa \
 	  htop \
 	  urlview \
 	  ripgrep \
@@ -163,8 +165,8 @@ install-nodenv: ## Install nodenv
 install-node: ## Install node
 	@printf "\033[92m=========Install node=========\033[0m\n\n"
 	@PATH=$(NODENV_PATH) eval "$(nodenv init -)"
-	@PATH=$(NODENV_PATH) nodenv install ${NPM_VERSION} -v
-	@PATH=$(NODENV_PATH) nodenv global ${NPM_VERSION}
+	@PATH=$(NODENV_PATH) nodenv install ${NODE_VERSION} -v
+	@PATH=$(NODENV_PATH) nodenv global ${NODE_VERSION}
 	@PATH=$(NODENV_PATH) npm install -g neovim
 
 .PHONY: install-yarn
