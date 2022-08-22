@@ -6,3 +6,5 @@
 	excludesfile = ~/.dotfiles/gitignore
 [init]
 	templatedir = ~/.dotfiles/git-templates/
+[user]
+	email = GlaciErrDev@users.noreply.github.com

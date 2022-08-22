@@ -5,7 +5,7 @@ scrolling:
 colors:
   # Default colors
   primary:
-    background: '0xEEEEEE'
+    background: '0xFAFAFA'
     foreground: '0x4D4D4C'
 
   # Normal colors
