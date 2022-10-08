@@ -1,6 +1,6 @@
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
-
 
 # NOTE: openssl
 export LDFLAGS="-L/usr/local/opt/openssl/lib"
@@ -44,9 +44,11 @@ export LANG=en_US.UTF-8
 
 # java
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
+# java end
 
 # golang
 export PATH=$PATH:$(go env GOPATH)/bin
+# golang end
 
 # Pyenv
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
@@ -54,10 +56,15 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
+# pyenv end
 
 # Nodenv
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
+# nodenv end
+
+export PATH=~/.npm-global/bin:$PATH
+
 
 # --files: List files that would be searched but do not search
 # --no-ignore: Do not respect .gitignore, etc...

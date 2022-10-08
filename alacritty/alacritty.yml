@@ -1,3 +1,8 @@
+window:
+  dimensions:
+    columns: 150
+    lines: 70
+
 scrolling:
   history: 20000
 
@@ -5,7 +10,7 @@ scrolling:
 colors:
   # Default colors
   primary:
-    background: '0xFAFAFA'
+    background: '0xEEEEEE'
     foreground: '0x4D4D4C'
 
   # Normal colors
