@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 
 GOLANG_VERSION=1.18
-PYTHON_VERSION=3.10.4
+PYTHON_VERSION=3.10.7
 NODE_VERSION=16.15.0
 RG_VERSION=13.0.0
 DOCKER_COMPOSE_VERSION=1.25.4
@@ -15,7 +15,7 @@ DOCKER_COMPOSE_VERSION=1.25.4
 #  install-golang \
 #  install-tpm \
 #  install-pyenv-python \
-#  install-nodenv-node-yarn \
+#  install-nodenv-node \
 #  install-ripgrep \
 #  install-fzf \
 #  install-docker \
@@ -28,7 +28,7 @@ setup: install-dotfiles \
   install-packages \
   install-tpm \
   install-pyenv-python \
-  install-nodenv-node-yarn \
+  install-nodenv-node \
   install-fzf \
   install-oh-my-zsh ## Install development environment
 
@@ -78,7 +78,12 @@ install-packages: ## Install brew packages
 	  htop \
 	  urlview \
 	  ripgrep \
-	  jq
+	  jq \
+		markdownlint \
+		gh \
+		markdownlint-cli \
+	  codespell \
+	  shellcheck
 
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
@@ -129,7 +134,7 @@ install-neovim: ## Install neovim
 	@sudo chmod +x /usr/local/bin/nv
 
 .PHONY: install-pyenv-python
-install-pyenv-python: install-pyenv install-python  ## Install pyenv and python
+install-pyenv-python: install-pyenv install-python install-python-packages ## Install pyenv and python
 
 .PHONY: install-pyenv
 install-pyenv: ## Install pyenv
@@ -145,11 +150,14 @@ install-python: ## Install python
 	@PATH=$(PYENV_PATH) eval "$(pyenv init -)"
 	@PATH=$(PYENV_PATH) pyenv install ${PYTHON_VERSION} -v
 	@PATH=$(PYENV_PATH) pyenv global ${PYTHON_VERSION}
-	# FIX ME
-	@PATH=$(PYENV_PATH) pip install flake8 mypy pylint neovim yapf rope
 
-.PHONY: install-nodenv-node-yarn
-install-nodenv-node-yarn: install-nodenv install-node install-yarn  ## Install nodenv and node
+.PHONY: install-python-packages
+install-python-packages: ## Install python global packages
+	@printf "\033[92m=========Install python global packages=========\033[0m\n\n"
+	@PATH=$(PYENV_PATH) pip install flake8 mypy pylint black neovim yapf rope ipython pyright
+
+.PHONY: install-nodenv-node
+install-nodenv-node: install-nodenv install-node set-npm-global-directory install-node-packages  ## Install nodenv and node
 
 NODENV_PATH="${HOME}/.nodenv/bin:${HOME}/.nodenv/shims:${PATH}"
 .PHONY: install-nodenv
@@ -167,12 +175,32 @@ install-node: ## Install node
 	@PATH=$(NODENV_PATH) eval "$(nodenv init -)"
 	@PATH=$(NODENV_PATH) nodenv install ${NODE_VERSION} -v
 	@PATH=$(NODENV_PATH) nodenv global ${NODE_VERSION}
-	@PATH=$(NODENV_PATH) npm install -g neovim
 
-.PHONY: install-yarn
-install-yarn: ## Install yarn
-	@printf "\033[92m=========Install yarn=========\033[0m\n\n"
-	@PATH=$(NODENV_PATH) eval "$(nodenv init -)" && npm install yarn -g
+.PHONY: set-npm-global-directory
+set-npm-global-directory: ## Install npm global directory
+	@printf "\033[92m=========Set npm global directory=========\033[0m\n\n"
+	@mkdir ~/.npm-global
+	@PATH=$(NODENV_PATH) npm config set prefix '~/.npm-global'
+
+.PHONY: install-node-packages
+install-node-packages: ## Install node packages
+	@printf "\033[92m=========Install npm packages=========\033[0m\n\n"
+	@PATH=$(NODENV_PATH) npm install -g neovim tree-sitter-cli
+
+.PHONY: install-hombrew
+install-hombrew: ## Install homebrew
+	@printf "\033[92m=========Install homebrew=========\033[0m\n\n"
+	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+.PHONY: install-rust
+install-rust: ## Install rust
+	@printf "\033[92m=========Install rust=========\033[0m\n\n"
+	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+.PHONY: install-lunarvim
+install-lunarvim: ## Install lunarvim
+	@printf "\033[92m=========Install lunarvim=========\033[0m\n\n"
+	@bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
 
 .PHONY: install-ripgrep
 install-ripgrep: ## Install ripgrep
