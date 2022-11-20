@@ -10,7 +10,7 @@ function local-venv() {
             pyenv virtualenv $1 "${PWD##*/}";
         fi
         pyenv local "${PWD##*/}";
-        pip install flake8 mypy pylint neovim yapf rope ipython;
+        # pip install flake8 mypy pylint neovim yapf rope ipython;
 }
 
 # Initialize go mod for current directory
