@@ -1,7 +1,7 @@
 window:
   dimensions:
-    columns: 150
-    lines: 70
+    columns: 160
+    lines: 80
 
 scrolling:
   history: 20000

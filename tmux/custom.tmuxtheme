@@ -12,7 +12,8 @@ set -g status-left "#[fg=#e4e4e4,bg=colour24] #S #[fg=colour24,bg=colour240,nobo
 # Right side of status bar
 set -g status-right-style bg=colour233,fg=colour243
 set -g status-right-length 150
-set -g status-right "#[fg=colour235,bg=#e4e4e4]#[fg=#e4e4e4,bg=colour235] %H:%M:%S #[fg=colour240,bg=colour235]#[fg=#e4e4e4,bg=colour240] %d-%b-%y #[fg=colour24,bg=colour240]#[fg=#e4e4e4,bg=colour24] #H "
+
+set -g status-right "#[fg=colour2,bg=#e4e4e4]#[fg=#e4e4e4,bg=colour2] #{battery_icon} Batt: #{battery_percentage} #[fg=colour235,bg=colour2]#[fg=#e4e4e4,bg=colour235] #{df_avail} #[fg=colour240,bg=colour235]#[fg=#e4e4e4,bg=colour240] %H:%M:%S #[fg=colour24,bg=colour240]#[fg=#e4e4e4,bg=colour24] %d-%b-%y"
 
 # Window status
 set -g window-status-format " #I:#W#F "

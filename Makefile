@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 
 GOLANG_VERSION=1.18
-PYTHON_VERSION=3.10.7
+PYTHON_VERSION=3.11.1
 NODE_VERSION=16.15.0
 RG_VERSION=13.0.0
 DOCKER_COMPOSE_VERSION=1.25.4
@@ -83,7 +83,8 @@ install-packages: ## Install brew packages
 		gh \
 		markdownlint-cli \
 	  codespell \
-	  shellcheck
+	  shellcheck \
+		gnu-sed
 
 .PHONY: apt-install-packages
 apt-install-packages: ## Install all packages and libraries with `apt intsall`
