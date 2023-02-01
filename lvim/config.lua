@@ -39,30 +39,34 @@ lvim.builtin.nvimtree.setup.view.width = 60
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+
 -- add your own keymapping
 -- NORMAL MODE
 lvim.keys.normal_mode["<C-s>"] = ":wa<cr>"
 lvim.keys.normal_mode["<leader>k"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["<leader>j"] = ":BufferLineCyclePrev<CR>"
-
 lvim.keys.normal_mode["<leader>sl"] = ":NewpaperLight<CR>"
 lvim.keys.normal_mode["<leader>sd"] = ":NewpaperDark<CR>"
-
 lvim.keys.normal_mode["<C-p>"] = ":MarkdownPreviewToggle<CR>"
-
 lvim.keys.normal_mode["<leader><space>"] = "<cmd>lua require('telescope.builtin').resume()<CR>"
-
+--  run command :Spectre
+lvim.keys.normal_mode["<leader>W"] = ":lua require('spectre').open()<CR>"
+-- search current word
+lvim.keys.normal_mode["<leader>tw"] = ":lua require('spectre').open_visual({select_word=true})<CR>"
+-- search in current file
+lvim.keys.normal_mode["<leader>tp"] = "viw:lua require('spectre').open_file_search()<CR>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
 lvim.keys.normal_mode["<space>q"] = ":qa!<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
 
+-- VISUAL MODE
+-- search current word
+lvim.keys.visual_mode["<leader>t"] = "<esc>:lua require('spectre').open_visual()<CR>"
+
 -- INSERT MODE
 lvim.keys.insert_mode["kj"] = "<Esc>"
 
-
-
--- VISUAL MODE
 
 local tb = require('telescope.builtin')
 
@@ -126,7 +130,15 @@ lvim.plugins = {
     end
   },
   { "tpope/vim-surround", keys = { "c", "d", "y" } },
-  { "kdheepak/lazygit.nvim" }
+  { "kdheepak/lazygit.nvim" },
+  {
+    "ggandor/leap.nvim",
+    config = function()
+      require("leap").set_default_keymaps()
+    end,
+  },
+  {'nvim-lua/plenary.nvim'},
+  {'windwp/nvim-spectre'}
 }
 
 
@@ -199,7 +211,7 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- make sure server will always be installed even if the server is in skipped_servers list
 lvim.lsp.installer.setup.ensure_installed = {
-  "sumeko_lua",
+  "sumneko_lua",
   "jsonls",
 }
 -- -- change UI setting of `LspInstallInfo`
@@ -263,10 +275,10 @@ linters.setup {
     filetypes = { "python" },
     extra_args = { "--config", "~/.config/flake8" }
   },
-  -- {
-  --   command = "mypy",
-  --   filetypes = { "python" },
-  -- },
+  {
+    command = "mypy",
+    filetypes = { "python" },
+  },
   {
     command = "pylint",
     filetypes = { "python" },
@@ -299,14 +311,12 @@ linters.setup {
 --   },
 -- }
 
-
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
--- local customGroup = vim.api.nvim_create_augroup("CustomGroup", { clear = true })
--- vim.api.nvim_create_autocmd(
---   {"BufEnter", "BufNew"},
---   {
---     pattern = { "*" },
---     group = customGroup,
---     command = "normal zR",
---   }
--- )
+local customGroup = vim.api.nvim_create_augroup("CustomGroup", { clear = true })
+vim.api.nvim_create_autocmd(
+  {"BufEnter", "BufNew"},
+  {
+    pattern = { "*" },
+    group = customGroup,
+    command = "normal zR",
+  }
+)
