@@ -6,23 +6,6 @@ NODE_VERSION=16.15.0
 RG_VERSION=13.0.0
 DOCKER_COMPOSE_VERSION=1.25.4
 
-# .PHONY: setup
-# setup: checkplatform \
-#  install-dotfiles \
-#  update-upgrade \
-#  add-alacritty-repo \
-#  apt-install-packages \
-#  install-golang \
-#  install-tpm \
-#  install-pyenv-python \
-#  install-nodenv-node \
-#  install-ripgrep \
-#  install-fzf \
-#  install-docker \
-#  install-docker-compose \
-#  install-oh-my-zsh ## Install development environment
-
-
 .PHONY: setup
 setup: install-dotfiles \
   install-packages \
@@ -32,34 +15,10 @@ setup: install-dotfiles \
   install-fzf \
   install-oh-my-zsh ## Install development environment
 
-.PHONY: checkplatform
-checkplatform: ## Check platform for installation
-	@printf "\033[92m=========Check platform=========\033[0m\n\n"
-ifneq ($(shell uname),Linux)
-	@echo '\033[91mPlatform unsupported, only available for Linux\033[0m\n'  && exit 1
-endif
-ifneq ($(shell lsb_release -s -r),$(filter $(shell lsb_release -s -r),18.04 20.04))
-	@echo '\033[91mPlatform unsupported, only available for Ubuntu 18.04\033[0m\n'  && exit 1
-endif
-ifeq ($(strip $(shell which apt-get)),)
-	@echo '\033[91mPlatform unsupported, apt-get not found\033[0m\n' && exit 1
-endif
-	@echo "\033[92mThis platform is supported.\033[0m\n"
-
 .PHONY: install-dotfiles
 install-dotfiles: ## Install dotfiles
 	@printf "\033[92m=========Install dotfiles=========\033[0m\n\n"
 	@./install.sh
-
-.PHONY: update-upgrade
-update-upgrade: ## Update info from sources and upgrade local packages
-	@printf "\033[92m=========Update && Upgrade=========\033[0m\n\n"
-	@sudo apt update && sudo apt upgrade -y
-
-.PHONY: add-alacritty-repo
-add-alacritty-repo: ## Add repo with alacritty deb
-	@printf "\033[92m=========Add repo with alacritty deb=========\033[0m\n\n"
-	@sudo add-apt-repository -y ppa:mmstick76/alacritty
 
 .PHONY: install-golang
 install-golang: ## Install golang
@@ -79,49 +38,12 @@ install-packages: ## Install brew packages
 	  urlview \
 	  ripgrep \
 	  jq \
-		markdownlint \
-		gh \
-		markdownlint-cli \
+	  markdownlint \
+	  gh \
+	  markdownlint-cli \
 	  codespell \
 	  shellcheck \
-		gnu-sed
-
-.PHONY: apt-install-packages
-apt-install-packages: ## Install all packages and libraries with `apt intsall`
-	@printf "\033[92m=========Install all packages=========\033[0m\n\n"
-	@sudo apt install -y \
-	  alacritty \
-	  tmux \
-	  make \
-	  htop \
-	  build-essential \
-	  libssl-dev \
-	  zlib1g-dev \
-	  libbz2-dev \
-	  libreadline-dev \
-	  libsqlite3-dev \
-	  wget \
-	  curl \
-	  llvm \
-	  libedit-dev \
-	  libncurses5-dev \
-	  libncursesw5-dev \
-	  xz-utils \
-	  exuberant-ctags \
-	  tk-dev \
-	  libffi-dev \
-	  liblzma-dev \
-	  python-openssl \
-	  git \
-	  apt-transport-https \
-	  ca-certificates \
-	  software-properties-common \
-	  gnupg-agent \
-	  zsh \
-	  xsel \
-	  neovim \
-	  urlview \
-	  jq
+      gnu-sed
 
 .PHONY: install-tpm
 install-tpm: ## Install tmux plugin manager
@@ -212,16 +134,6 @@ install-fzf: ## Install fzf
 	@git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 	@yes | ${HOME}/.fzf/install
 
-.PHONY: install-docker
-install-docker: ## Install docker
-	@printf "\033[92m=========Install docker=========\033[0m\n\n"
-	@curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	@sudo apt-key fingerprint 0EBFCD88
-	@sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu `lsb_release -cs` stable"
-	@sudo apt update
-	@sudo apt install -y docker-ce
-	@sudo usermod -aG docker ${USER}
-
 .PHONY: install-docker-compose
 install-docker-compose: ## Install docker-compose
 	@printf "\033[92m=========Install docker-compose=========\033[0m\n\n"
@@ -234,7 +146,6 @@ install-oh-my-zsh: ## Install oh-my-zsh
 	@rm -rf ${HOME}/.oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
 	if [ $SHELL != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
-
 
 .PHONY: help
 # got from :https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
