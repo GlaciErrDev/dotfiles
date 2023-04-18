@@ -198,11 +198,6 @@ install-rust: ## Install rust
 	@printf "\033[92m=========Install rust=========\033[0m\n\n"
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-.PHONY: install-lunarvim
-install-lunarvim: ## Install lunarvim
-	@printf "\033[92m=========Install lunarvim=========\033[0m\n\n"
-	@bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh)
-
 .PHONY: install-ripgrep
 install-ripgrep: ## Install ripgrep
 	@printf "\033[92m=========Install ripgrep=========\033[0m\n\n"
