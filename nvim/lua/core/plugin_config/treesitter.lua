@@ -8,7 +8,9 @@ require("nvim-treesitter.configs").setup({
         "make",
         "json",
         "gitignore",
+        "gitcommit",
         "dockerfile",
+        "c",
         "rust", 
         "python", 
         "bash"
