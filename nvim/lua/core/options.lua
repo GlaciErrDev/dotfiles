@@ -1,3 +1,5 @@
+vim.opt.termguicolors = true
+
 vim.opt.backspace = '2'
 vim.opt.showcmd = true
 vim.opt.laststatus = 2
