@@ -4,6 +4,7 @@ require("nvim-treesitter.configs").setup({
         "markdown", 
         "lua", 
         "yaml", 
+        "diff",
         "sql", 
         "make",
         "json",
