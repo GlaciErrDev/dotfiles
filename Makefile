@@ -20,12 +20,6 @@ install-dotfiles: ## Install dotfiles
 	@printf "\033[92m=========Install dotfiles=========\033[0m\n\n"
 	@./install.sh
 
-.PHONY: install-golang
-install-golang: ## Install golang
-	@printf "\033[92m=========Install golang=========\033[0m\n\n"
-	@curl -fsSL https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz
-	@sudo tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz
-
 .PHONY: install-packages
 install-packages: ## Install brew packages
 	@printf "\033[92m=========Install all packages=========\033[0m\n\n"
@@ -49,12 +43,6 @@ install-packages: ## Install brew packages
 install-tpm: ## Install tmux plugin manager
 	@printf "\033[92m=========Install tmux plugin manager=========\033[0m\n\n"
 	@git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-.PHONY: install-neovim
-install-neovim: ## Install neovim
-	@printf "\033[92m=========Install neovim=========\033[0m\n\n"
-	@sudo curl -L https://github.com/neovim/neovim/releases/download/stable/nvim.appimage -o /usr/local/bin/nv
-	@sudo chmod +x /usr/local/bin/nv
 
 .PHONY: install-pyenv-python
 install-pyenv-python: install-pyenv install-python install-python-packages ## Install pyenv and python

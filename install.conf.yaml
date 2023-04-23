@@ -9,13 +9,14 @@
     ~/.fonts: fonts
     ~/.zsh_custom: zsh_custom
     ~/.aliases: aliases
-    ~/.helpful_functions: helpful_functions
+    ~/.zsh_functions: zsh_functions
     ~/.config/alacritty: alacritty
     ~/.gitconfig: gitconfig
     ~/.gitignore: gitignore
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
     ~/.config/nvim: nvim
+    ~/.config/LazyVim: LazyVim
     ~/.config/flake8: config/flake8
     ~/.config/yapf: config/yapf
     ~/.config/black.toml: config/black.toml
