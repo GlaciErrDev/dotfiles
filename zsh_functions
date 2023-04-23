@@ -1,6 +1,6 @@
-#####################
-# Helpful functions #
-#####################
+#################
+# ZSH functions #
+#################
 
 # Make a local virtualenv
 function local-venv() {
@@ -21,4 +21,17 @@ function init-gomod() {
 # Get the current name of virtualenv
 function virtualenv_info() {
         [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`')'
+}
+
+# Neovim switcher
+function nvs() {
+  items=("default" "LazyVim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=25% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
 }

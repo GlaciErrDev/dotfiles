@@ -35,7 +35,7 @@ export ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
 source $HOME/.aliases
-source $HOME/.helpful_functions
+source $HOME/.zsh_functions
 source $HOME/.private_aliases
 source $HOME/.private_functions
 source $HOME/.additional_exports
