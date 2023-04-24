@@ -35,3 +35,32 @@ function nvs() {
   fi
   NVIM_APPNAME=$config nvim $@
 }
+
+# Select TMUX session or create new one
+function tmx() {
+    session_id=""
+    list_sessions=$(tmux list-sessions)
+    if [[ $? -eq 0 ]]; then
+        num_sessions=$(echo ${list_sessions} | wc -l | awk '{print $1}')
+        if [[ ${num_sessions} -lt 2 ]]; then
+            session_id=$(echo ${list_sessions} | awk '{print $1}' | sed 's|:||')
+            tmux a
+            return 0
+        fi
+    fi
+    session=$(echo ${list_sessions} | fzf \
+        --prompt="TMUX Session  " \
+        --height=25% \
+        --layout=reverse \
+        --border)
+    if [[ $? -eq 0 ]]; then
+        session_id=$(echo ${session} | awk '{print $1}' | sed 's|:||')
+    else
+        return 0
+    fi
+    if [[ -z ${session_id} ]]; then
+        tmux
+    else
+        tmux a -t ${session_id}
+    fi
+}
