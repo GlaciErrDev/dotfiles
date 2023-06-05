@@ -16,7 +16,6 @@
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
     ~/.config/nvim: nvim
-    ~/.config/LazyVim: LazyVim
     ~/.config/flake8: config/flake8
     ~/.config/yapf: config/yapf
     ~/.config/black.toml: config/black.toml
