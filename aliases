@@ -85,4 +85,3 @@ alias ggpullup='git pull upstream "$(git_current_branch)"'
 # NVIM #
 ########
 alias nv="NVIM_APPNAME=nvim nvim"
-alias lv="NVIM_APPNAME=LazyVim nvim"

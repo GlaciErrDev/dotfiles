@@ -7,3 +7,4 @@ Thumbs.db
 .uuid
 
 nvim/plugin
+LazyVim/lazy-lock.json
