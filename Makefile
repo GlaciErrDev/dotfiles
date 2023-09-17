@@ -96,7 +96,7 @@ set-npm-global-directory: ## Install npm global directory
 .PHONY: install-node-packages
 install-node-packages: ## Install node packages
 	@printf "\033[92m=========Install npm packages=========\033[0m\n\n"
-	@PATH=$(NODENV_PATH) npm install -g neovim tree-sitter-cli
+	@PATH=$(NODENV_PATH) npm install -g neovim tree-sitter-cli nodemon
 
 .PHONY: install-hombrew
 install-hombrew: ## Install homebrew

@@ -42,6 +42,16 @@ source $HOME/.additional_exports
 
 export LANG=en_US.UTF-8
 
+# Cocoapods
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH
+export PATH=$GEM_HOME/ruby/2.6.0/bin:$PATH
+# cocoapods end
+
+# Flutter
+export PATH="$PATH:$HOME/development/flutter/bin"
+# flutter end
+
 # java
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
 # java end
