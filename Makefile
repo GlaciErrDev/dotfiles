@@ -5,6 +5,7 @@ PYTHON_VERSION=3.11.1
 NODE_VERSION=16.15.0
 RG_VERSION=13.0.0
 DOCKER_COMPOSE_VERSION=1.25.4
+FLUTTER_VERSION=3.13.4
 
 .PHONY: setup
 setup: install-dotfiles \
@@ -13,6 +14,9 @@ setup: install-dotfiles \
   install-pyenv-python \
   install-nodenv-node \
   install-fzf \
+	install-flutter \
+	install-cocoapods \
+	install-lazyvim \
   install-oh-my-zsh ## Install development environment
 
 .PHONY: install-dotfiles
@@ -37,7 +41,7 @@ install-packages: ## Install brew packages
 	  markdownlint-cli \
 	  codespell \
 	  shellcheck \
-      gnu-sed
+    gnu-sed
 
 .PHONY: install-tpm
 install-tpm: ## Install tmux plugin manager
@@ -65,7 +69,7 @@ install-python: ## Install python
 .PHONY: install-python-packages
 install-python-packages: ## Install python global packages
 	@printf "\033[92m=========Install python global packages=========\033[0m\n\n"
-	@PATH=$(PYENV_PATH) pip install flake8 mypy pylint black neovim yapf rope ipython pyright
+	@PATH=$(PYENV_PATH) pip install flake8 mypy pylint black neovim ipython pyright
 
 .PHONY: install-nodenv-node
 install-nodenv-node: install-nodenv install-node set-npm-global-directory install-node-packages  ## Install nodenv and node
@@ -108,13 +112,6 @@ install-rust: ## Install rust
 	@printf "\033[92m=========Install rust=========\033[0m\n\n"
 	@curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-.PHONY: install-ripgrep
-install-ripgrep: ## Install ripgrep
-	@printf "\033[92m=========Install ripgrep=========\033[0m\n\n"
-	@curl -LO https://github.com/BurntSushi/ripgrep/releases/download/${RG_VERSION}/ripgrep_${RG_VERSION}_amd64.deb
-	@sudo dpkg -i ripgrep_${RG_VERSION}_amd64.deb
-	@rm ripgrep_${RG_VERSION}_amd64.deb
-
 .PHONY: install-fzf
 install-fzf: ## Install fzf
 	@printf "\033[92m=========Install fzf=========\033[0m\n\n"
@@ -134,6 +131,26 @@ install-oh-my-zsh: ## Install oh-my-zsh
 	@rm -rf ${HOME}/.oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
 	if [ $SHELL != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
+
+.PHONY: install-flutter
+# https://docs.flutter.dev/get-started/install/macos
+install-flutter: ## Install Flutter
+	@printf "\033[92m=========Install Flutter=========\033[0m\n\n"
+	@curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip
+	@unzip flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip -d ~/tools/
+	@rm flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip
+
+.PHONY: install-cocoapods
+install-cocoapods: ## Install Cocoapods
+	@printf "\033[92m=========Install Cocoapods=========\033[0m\n\n"
+	@gem install cocoapods --user-install
+
+.PHONY: install-lazyvim
+install-lazyvim: ## Install Lazyvim
+	@printf "\033[92m=========Install Lazyvim=========\033[0m\n\n"
+	@if [ -d "$(HOME)/.config/nvim" ]; then  mv $(HOME)/.config/nvim $(HOME)/.config/nvim_`date +"%d-%m-%Y_%s"`; fi 
+	@git clone https://github.com/LazyVim/starter $(HOME)/.config/nvim
+	@rm -rf $(HOME)/.config/nvim/.git $(HOME)/.config/nvim/lua
 
 .PHONY: help
 # got from :https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
