@@ -5,6 +5,19 @@
 
 - clean: ['~', '~/.vim', '~/.config']
 
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+  - touch ~/.private_aliases
+  - touch ~/.private_functions
+  - touch ~/.additional_exports
+  - [make install-lazyvim, Install LazyVim]
+
+- create:
+  - ~/.gem
+  - ~/Projects
+  - ~/bin
+  - ~/tools
+
 - link:
     ~/.fonts: fonts
     ~/.zsh_custom: zsh_custom
@@ -15,16 +28,6 @@
     ~/.gitignore: gitignore
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
-    ~/.config/nvim: nvim
     ~/.config/flake8: config/flake8
     ~/.config/yapf: config/yapf
-    ~/.config/black.toml: config/black.toml
-
-- create:
-  - ~/Projects
-
-- shell:
-  - [git submodule update --init --recursive, Installing submodules]
-  - touch ~/.private_aliases
-  - touch ~/.private_functions
-  - touch ~/.additional_exports
+    ~/.config/nvim/lua: nvim/lua

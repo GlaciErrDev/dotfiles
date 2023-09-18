@@ -49,7 +49,7 @@ export PATH=$GEM_HOME/ruby/2.6.0/bin:$PATH
 # cocoapods end
 
 # Flutter
-export PATH="$PATH:$HOME/development/flutter/bin"
+export PATH="$PATH:$HOME/tools/flutter/bin"
 # flutter end
 
 # java
