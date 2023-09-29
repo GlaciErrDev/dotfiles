@@ -64,9 +64,11 @@ function dco() {
 alias cddot='cd ~/.dotfiles'
 alias cdnot='cd ~/.notes'
 alias tree='exa -lT --no-permissions --no-user --no-time'
-alias l='exa -lag'
-alias ll='exa -lg'
+alias l='exa -lag -s=mod'
+alias ll='exa -lg -s=mod'
+
 alias yt-dlp-h='yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv'
+alias yt-dlp-audio='yt-dlp -f "bestaudio" --extract-audio --audio-format mp3'
 
 ############
 # Mac apps #
