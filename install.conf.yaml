@@ -31,3 +31,4 @@
     ~/.config/flake8: config/flake8
     ~/.config/yapf: config/yapf
     ~/.config/nvim/lua: nvim/lua
+    ~/.config/nvim/after: nvim/after
