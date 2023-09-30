@@ -23,12 +23,24 @@ return {
 
   {
     "lukas-reineke/indent-blankline.nvim",
-    -- "▎"
-    -- "▍"
+    main = "ibl",
     opts = {
-      context_char = "▎",
-      show_current_context = true,
-      use_treesitter = true,
+      indent = {
+        char = "▏",
+        tab_char = "▏",
+        -- char = "▎",
+        -- tab_char = "▎",
+      },
+      scope = {
+        enabled = true,
+        -- char = "▎",
+        char = "▍",
+        show_start = false,
+      },
+      whitespace = {
+        enable = true,
+        remove_blankline_trail = true,
+      },
     },
   },
 
@@ -131,6 +143,9 @@ return {
   {
     "neovim/nvim-lspconfig",
     opts = {
+      format = {
+        timeout_ms = 5000,
+      },
       servers = {
         pyright = {},
         gopls = {
