@@ -29,6 +29,7 @@
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
     ~/.config/flake8: config/flake8
+    ~/.config/stylua.toml: config/stylua.toml
     ~/.config/yapf: config/yapf
     ~/.config/nvim/lua: nvim/lua
     ~/.config/nvim/after: nvim/after
