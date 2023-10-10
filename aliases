@@ -63,6 +63,7 @@ function dco() {
 
 alias cddot='cd ~/.dotfiles'
 alias cdnot='cd ~/.notes'
+alias cdreq='cd ~/requests'
 alias tree='exa -lT --no-permissions --no-user --no-time'
 alias l='exa -lag -s=mod'
 alias ll='exa -lg -s=mod'
