@@ -3,5 +3,7 @@
 
 .python-version
 .mypy_cache
+__pycache__
+pyrightconfig.json
 
 .vim/

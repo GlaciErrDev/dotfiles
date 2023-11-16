@@ -21,6 +21,12 @@ map("i", "kj", "<Esc>", { desc = "Exit INSERT mode" })
 
 -- NORMAL --
 map("n", "<C-s>", "<cmd>wa<CR>", { desc = "Save all buffers" })
+map("n", "<C-o>", "<C-o>zz")
+map("n", "<C-i>", "<C-i>zz")
+map("n", "<C-r>", "<C-r>zz")
+map("n", "u", "uzz")
+map("n", "n", "nzz")
+map("n", "N", "Nzz")
 map(
   "n",
   "<leader><space>",
