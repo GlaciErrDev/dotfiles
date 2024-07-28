@@ -1,5 +1,8 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 export PATH="/usr/local/sbin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 
 # NOTE: openssl
@@ -42,12 +45,6 @@ source $HOME/.additional_exports
 
 export LANG=en_US.UTF-8
 
-# Cocoapods
-export GEM_HOME=$HOME/.gem
-export PATH=$GEM_HOME/bin:$PATH
-export PATH=$GEM_HOME/ruby/2.6.0/bin:$PATH
-# cocoapods end
-
 # Flutter
 export PATH="$PATH:$HOME/tools/flutter/bin"
 # flutter end
@@ -84,3 +81,4 @@ export PATH=~/.npm-global/bin:$PATH
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. "$HOME/.cargo/env"

@@ -33,3 +33,5 @@ map(
   "<cmd>lua require('telescope.builtin').resume()<CR>",
   { desc = "Previouse Telescope command" }
 )
+
+map({ "n", "v" }, "<leader>]", ":Gen<CR>")

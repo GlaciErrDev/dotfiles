@@ -1,12 +1,8 @@
 .DEFAULT_GOAL := help
 
-GOLANG_VERSION=1.18
-PYTHON_VERSION=3.11.1
-NODE_VERSION=16.15.0
-RG_VERSION=13.0.0
-DOCKER_COMPOSE_VERSION=1.25.4
-FLUTTER_VERSION=3.13.4
-
+PYTHON_VERSION=3.12.4
+NODE_VERSION=20.16.0
+FLUTTER_VERSION=3.22.0
 .PHONY: setup
 setup: install-dotfiles \
   install-packages \
@@ -15,7 +11,6 @@ setup: install-dotfiles \
   install-nodenv-node \
   install-fzf \
 	install-flutter \
-	install-cocoapods \
 	install-lazyvim \
   install-oh-my-zsh ## Install development environment
 
@@ -24,29 +19,47 @@ install-dotfiles: ## Install dotfiles
 	@printf "\033[92m=========Install dotfiles=========\033[0m\n\n"
 	@./install.sh
 
+
 .PHONY: install-packages
-install-packages: ## Install brew packages
-	@printf "\033[92m=========Install all packages=========\033[0m\n\n"
+install-packages: install-brew-casks install-brew-packages ## Install all tools and packages
+
+.PHONY: install-brew-casks
+install-brew-casks: ## Install brew casks
+	@printf "\033[92m=========Install brew casks=========\033[0m\n\n"
+	@brew tap homebrew/cask-fonts
+	@brew install --cask \
+		lulu \
+		hiddenbar \
+		font-hack-nerd-font
+
+.PHONY: install-brew-packages
+install-brew-packages: ## Install brew packages
+	@printf "\033[92m=========Install brew packages=========\033[0m\n\n"
 	@brew install \
 	  tmux \
+	  tmux-xpanes \
 	  neovim \
 	  golang \
-	  exa \
+	  eza \
 	  htop \
 	  urlview \
 	  ripgrep \
 	  jq \
-	  markdownlint \
 	  gh \
 	  markdownlint-cli \
 	  codespell \
 	  shellcheck \
+	  cocoapods \
+		bat \
+		tealdeer \
+		git-delta \
     gnu-sed
 
 .PHONY: install-tpm
 install-tpm: ## Install tmux plugin manager
 	@printf "\033[92m=========Install tmux plugin manager=========\033[0m\n\n"
-	@git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	@rm -rf ${HOME}/.tmux/plugins/tpm
+	@git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 
 .PHONY: install-pyenv-python
 install-pyenv-python: install-pyenv install-python install-python-packages ## Install pyenv and python
@@ -119,18 +132,12 @@ install-fzf: ## Install fzf
 	@git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 	@yes | ${HOME}/.fzf/install
 
-.PHONY: install-docker-compose
-install-docker-compose: ## Install docker-compose
-	@printf "\033[92m=========Install docker-compose=========\033[0m\n\n"
-	@sudo curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-	@sudo chmod +x /usr/local/bin/docker-compose
-
 .PHONY: install-oh-my-zsh
 install-oh-my-zsh: ## Install oh-my-zsh
 	@printf "\033[92m=========Install oh-my-zsh=========\033[0m\n\n"
 	@rm -rf ${HOME}/.oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
-	if [ $SHELL != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
+	if [ ${SHELL} != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
 
 .PHONY: install-flutter
 # https://docs.flutter.dev/get-started/install/macos
@@ -139,11 +146,6 @@ install-flutter: ## Install Flutter
 	@curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip
 	@unzip flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip -d ~/tools/
 	@rm flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip
-
-.PHONY: install-cocoapods
-install-cocoapods: ## Install Cocoapods
-	@printf "\033[92m=========Install Cocoapods=========\033[0m\n\n"
-	@gem install cocoapods --user-install
 
 .PHONY: install-lazyvim
 install-lazyvim: ## Install Lazyvim

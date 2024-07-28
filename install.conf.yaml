@@ -26,9 +26,11 @@
     ~/.config/alacritty: alacritty
     ~/.gitconfig: gitconfig
     ~/.gitignore: gitignore
-    ~/.tmux.conf: tmux.conf
+    ~/.tmux.conf: tmux/tmux.conf
     ~/.zshrc: zshrc
     ~/.config/flake8: config/flake8
+    ~/.config/bat: bat
+    ~/.config/delta: delta
     ~/.config/stylua.toml: config/stylua.toml
     ~/.config/yapf: config/yapf
     ~/.config/nvim/lua: nvim/lua
