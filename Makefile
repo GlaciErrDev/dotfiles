@@ -6,7 +6,7 @@ FLUTTER_VERSION=3.22.0
 .PHONY: setup
 setup: install-dotfiles \
   install-packages \
-  install-tpm \
+  install-tmux \
   install-pyenv-python \
   install-nodenv-node \
   install-fzf \
@@ -41,7 +41,7 @@ install-brew-packages: ## Install brew packages
 	  neovim \
 	  golang \
 	  eza \
-	  htop \
+	  btop \
 	  urlview \
 	  ripgrep \
 	  jq \
@@ -55,11 +55,24 @@ install-brew-packages: ## Install brew packages
 		git-delta \
     gnu-sed
 
-.PHONY: install-tpm
-install-tpm: ## Install tmux plugin manager
+.PHONY: install-tmux
+install-tmux: install-tmux-plugin-manager install-tmux-plugins update-tmux-plugins ## Install tmux and plugins
+
+.PHONY: install-tmux-plugin-manager
+install-tmux-plugin-manager: ## Install tmux plugin manager
 	@printf "\033[92m=========Install tmux plugin manager=========\033[0m\n\n"
 	@rm -rf ${HOME}/.tmux/plugins/tpm
 	@git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+
+.PHONY: install-tmux-plugins
+install-tmux-plugins: ## Install tmux plugins
+	@printf "\033[92m=========Install tmux plugins=========\033[0m\n\n"
+	@${HOME}/.tmux/plugins/tpm/bin/install_plugins
+
+.PHONY: update-tmux-plugins
+update-tmux-plugins: ## Update tmux plugins
+	@printf "\033[92m=========Update tmux plugins=========\033[0m\n\n"
+	@${HOME}/.tmux/plugins/tpm/bin/update_plugins all
 
 .PHONY: install-pyenv-python
 install-pyenv-python: install-pyenv install-python install-python-packages ## Install pyenv and python
