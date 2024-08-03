@@ -7,3 +7,6 @@ __pycache__
 pyrightconfig.json
 
 .vim/
+
+**/*-e
+**/.!*!*

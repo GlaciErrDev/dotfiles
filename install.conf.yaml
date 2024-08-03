@@ -2,6 +2,7 @@
     link:
       create: true
       relink: true
+      force: true
 
 - clean: ['~', '~/.vim', '~/.config']
 
@@ -27,9 +28,11 @@
     ~/.gitconfig: gitconfig
     ~/.gitignore: gitignore
     ~/.tmux.conf: tmux/tmux.conf
+    ~/.tmux/plugins/tmux/custom: tmux/themes/catppuccin/custom
     ~/.zshrc: zshrc
     ~/.config/flake8: config/flake8
     ~/.config/bat: bat
+    ~/.config/btop: btop
     ~/.config/delta: delta
     ~/.config/stylua.toml: config/stylua.toml
     ~/.config/yapf: config/yapf
