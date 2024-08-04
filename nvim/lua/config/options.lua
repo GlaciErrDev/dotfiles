@@ -6,4 +6,4 @@ local opt = vim.opt
 
 opt.conceallevel = 0
 opt.relativenumber = false -- Relative line numbers
-opt.background = "light" -- changes via automator script
+opt.background = "dark" -- changes via automator script

@@ -21,7 +21,7 @@
     path = ~/.config/delta/themes/catppuccin.gitconfig
 
 [delta]
-    features = decorations catppuccin-latte
+    features = decorations catppuccin-mocha
     side-by-side = true
 
 [delta "interactive"]

@@ -10,8 +10,8 @@ CATPPUCCIN_MOCHA_2="mocha"
 CATPPUCCIN_LATTE_3="Mocha"
 CATPPUCCIN_MOCHA_3="Latte"
 
-CATPPUCCIN_LATTE_4="catppuccin_latte"
-CATPPUCCIN_MOCHA_4="catppuccin_mocha"
+BTOP_CATPPUCCIN_LATTE="$HOME/.config/btop/themes/catppuccin_latte.theme"
+BTOP_CATPPUCCIN_MOCHA="$HOME/.config/btop/themes/catppuccin_mocha.theme"
 
 NVIM_LIGHT="light"
 NVIM_DARK="dark"
@@ -26,8 +26,7 @@ PREV_BAT_THEME=$CATPPUCCIN_LATTE_3
 NEXT_BAT_THEME=$CATPPUCCIN_MOCHA_3
 PREV_DELTA_THEME=$CATPPUCCIN_LATTE_1
 NEXT_DELTA_THEME=$CATPPUCCIN_MOCHA_1
-PREV_BTOP_THEME=$CATPPUCCIN_LATTE_4
-NEXT_BTOP_THEME=$CATPPUCCIN_MOCHA_4
+NEXT_BTOP_THEME=$BTOP_CATPPUCCIN_MOCHA
 APPLIED_THEME="DARK"
 
 # Check if Dark theme was applied
@@ -43,8 +42,7 @@ if $DARK_MODE; then
   NEXT_BAT_THEME=$CATPPUCCIN_LATTE_3
   PREV_DELTA_THEME=$CATPPUCCIN_MOCHA_1
   NEXT_DELTA_THEME=$CATPPUCCIN_LATTE_1
-  PREV_BTOP_THEME=$CATPPUCCIN_MOCHA_4
-  NEXT_BTOP_THEME=$CATPPUCCIN_LATTE_4
+  NEXT_BTOP_THEME=$BTOP_CATPPUCCIN_LATTE
   APPLIED_THEME="LIGHT"
 fi
 
@@ -61,7 +59,7 @@ sed -i -e "s/$PREV_BAT_THEME/$NEXT_BAT_THEME/" $HOME/.config/bat/config
 # change delta theme
 sed "s/$PREV_DELTA_THEME/$NEXT_DELTA_THEME/g" <$HOME/.gitconfig 1<>$HOME/.gitconfig
 # change btop theme
-sed -i -e "s/$PREV_BTOP_THEME/$NEXT_BTOP_THEME/" $HOME/.config/btop/btop.conf
+sed -i -E 's|\(^color_theme = \"\).*\(\"$\)|\1'$NEXT_BTOP_THEME'\2|' $HOME/.config/btop/btop.conf
 # send the USR2 signal to the process to make it reload the configuration from disk
 ps aux | grep btop | awk '{print $11 " " $2}' | grep btop | awk '{print $2}' | xargs kill -s USR2
 # change macos theme
