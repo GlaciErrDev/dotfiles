@@ -25,13 +25,15 @@ map("n", "<C-o>", "<C-o>zz")
 map("n", "<C-i>", "<C-i>zz")
 map("n", "<C-r>", "<C-r>zz")
 map("n", "u", "uzz")
-map("n", "n", "nzz")
-map("n", "N", "Nzz")
-map(
-  "n",
-  "<leader><space>",
-  "<cmd>lua require('telescope.builtin').resume()<CR>",
-  { desc = "Previouse Telescope command" }
-)
+map("n", "n", "nzzzv")
+map("n", "N", "NzzzV")
+map("n", "<leader>r", "<cmd>lua require('telescope.builtin').resume()<CR>", { desc = "Previouse Telescope command" })
 
 map({ "n", "v" }, "<leader>]", ":Gen<CR>")
+
+vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "<C-d›", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+-- Preserve copy selection after pasting it
+map("x", "p", '"_dP')
