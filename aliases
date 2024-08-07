@@ -76,7 +76,7 @@ alias l='eza -lag -s=mod'
 alias ll='eza -lg -s=mod'
 alias tldrf='tldr --list | fzf --preview="tldr {1} --color=always" --preview-window=right,70% | xargs tldr'
 
-alias yt-dlp-h='yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv'
+alias yt-dlp-h='yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv --write-description'
 alias yt-dlp-audio='yt-dlp -f "bestaudio" --extract-audio --audio-format mp3'
 
 ############
