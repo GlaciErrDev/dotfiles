@@ -37,3 +37,5 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Preserve copy selection after pasting it
 map("x", "p", '"_dP')
+
+map("n", "<leader>xx", "<cmd>!chmod +x %<CR>", { silent = true })
