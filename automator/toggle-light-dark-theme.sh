@@ -7,8 +7,8 @@ CATPPUCCIN_MOCHA_1="catppuccin-mocha"
 CATPPUCCIN_LATTE_2="latte"
 CATPPUCCIN_MOCHA_2="mocha"
 
-CATPPUCCIN_LATTE_3="Mocha"
-CATPPUCCIN_MOCHA_3="Latte"
+CATPPUCCIN_LATTE_3="Latte"
+CATPPUCCIN_MOCHA_3="Mocha"
 
 BTOP_CATPPUCCIN_LATTE="$HOME/.config/btop/themes/catppuccin_latte.theme"
 BTOP_CATPPUCCIN_MOCHA="$HOME/.config/btop/themes/catppuccin_mocha.theme"
