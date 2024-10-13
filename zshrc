@@ -32,8 +32,6 @@ export CPPFLAGS="-I/usr/local/opt/llvm/include"
 ZSH_CUSTOM=$HOME/.zsh_custom
 ZSH_THEME="custom"
 
-plugins=(git)
-
 export ZSH_DISABLE_COMPFIX=true
 source $ZSH/oh-my-zsh.sh
 
@@ -44,6 +42,8 @@ source $HOME/.private_functions
 source $HOME/.additional_exports
 
 export LANG=en_US.UTF-8
+
+export EDITOR=nv
 
 # Flutter
 export PATH="$PATH:$HOME/tools/flutter/bin"
@@ -69,6 +69,10 @@ eval "$(pyenv virtualenv-init -)"
 export PATH="$HOME/.nodenv/bin:$PATH"
 eval "$(nodenv init -)"
 # nodenv end
+
+# Zoxide
+eval "$(zoxide init --cmd cd zsh)"
+# zoxide end
 
 export PATH=~/.npm-global/bin:$PATH
 
