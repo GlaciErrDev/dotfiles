@@ -1,4 +1,4 @@
-alias d='podman'
+alias d='docker'
 
 ##########
 # Images #
@@ -72,8 +72,8 @@ alias cddot='cd ~/.dotfiles'
 alias cdnot='cd ~/.notes'
 alias cdreq='cd ~/requests'
 alias tree='eza -lT --no-permissions --no-user --no-time'
-alias l='eza -lag -s=mod'
-alias ll='eza -lg -s=mod'
+alias l='eza -lag -s=changed'
+alias ll='eza -lg -s=changed'
 alias tldrf='tldr --list | fzf --preview="tldr {1} --color=always" --preview-window=right,70% | xargs tldr'
 
 alias yt-dlp-h='yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv --write-description'
@@ -90,6 +90,20 @@ alias chrome="/Applications/Google\\ \\Chrome.app/Contents/MacOS/Google\\ \\Chro
 # Git #
 #######
 
+alias gcmsg='git commit --message'
+alias gc='git commit --verbose'
+alias ga='git add'
+alias gst='git status'
+alias grup='git remote update'
+alias ggpull='git pull origin "$(git_current_branch)"'
+alias grba='git rebase --abort'
+alias grbc='git rebase --continue'
+alias grbi='git rebase --interactive'
+alias glgg='git log --graph'
+alias glgga='git log --graph --decorate --all'
+alias glg='git log --stat'
+alias gb='git branch'
+alias gco='git checkout'
 alias ggpullup='git pull upstream "$(git_current_branch)"'
 
 ########
