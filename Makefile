@@ -29,8 +29,9 @@ install-brew-casks: ## Install brew casks
 	@brew tap homebrew/cask-fonts
 	@brew install --cask \
 		lulu \
-		hiddenbar \
+		wezterm \
 		font-hack-nerd-font
+
 
 .PHONY: install-brew-packages
 install-brew-packages: ## Install brew packages
@@ -54,6 +55,15 @@ install-brew-packages: ## Install brew packages
 		tealdeer \
 		git-delta \
     gnu-sed
+		exiftool \
+		yazi \
+		ffmpegthumbnailer \
+		sevenzip \
+		poppler \
+		fd \
+		zoxide \
+		imagemagick \
+		font-symbols-only-nerd-font
 
 .PHONY: install-tmux
 install-tmux: install-tmux-plugin-manager install-tmux-plugins update-tmux-plugins ## Install tmux and plugins

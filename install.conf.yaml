@@ -32,6 +32,8 @@
     ~/.zshrc: zshrc
     ~/.config/flake8: config/flake8
     ~/.config/bat: bat
+    ~/.config/wezterm: wezterm
+    ~/.config/yazi: yazi
     ~/.config/btop/themes: btop/themes
     ~/.config/delta: delta
     ~/.config/stylua.toml: config/stylua.toml
