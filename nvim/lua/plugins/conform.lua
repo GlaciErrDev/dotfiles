@@ -10,6 +10,7 @@ return {
           "gofmt",
         },
         python = {
+          "isort",
           "black",
         },
       },
