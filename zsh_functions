@@ -41,29 +41,31 @@ function nvs() {
 function tmx() {
     session_id=""
     list_sessions=$(tmux list-sessions)
-    if [[ $? -eq 0 ]]; then
+    if [ $? -eq 0 ]; then
         num_sessions=$(echo ${list_sessions} | wc -l | awk '{print $1}')
-        if [[ ${num_sessions} -lt 2 ]]; then
+        if [ ${num_sessions} -eq 1 ]; then
             session_id=$(echo ${list_sessions} | awk '{print $1}' | sed 's|:||')
             tmux a
-            return 0
+        else
+            session=$(echo ${list_sessions} | fzf \
+                --prompt="Active TMUX Session:" \
+                --height=25% \
+                --layout=reverse \
+                --border)
+            session_id=$(echo ${session} | awk '{print $1}' | sed 's|:||')
+            tmux a -t ${session_id}
         fi
-    fi
-    session=$(echo ${list_sessions} | fzf \
-        --prompt="TMUX Session  " \
-        --height=25% \
-        --layout=reverse \
-        --border)
-    if [[ $? -eq 0 ]]; then
-        session_id=$(echo ${session} | awk '{print $1}' | sed 's|:||')
     else
-        return 0
-    fi
-    if [[ -z ${session_id} ]]; then
         tmux
-    else
-        tmux a -t ${session_id}
     fi
+}
+
+function gd() {
+  preview="git diff $@ --color=always -- {-1} | delta"
+  git diff $@ --name-only | fzf \
+    --preview $preview \
+    --preview-window=up,75% \
+    --bind Ctrl-p:preview-half-page-up,Ctrl-n:preview-half-page-down
 }
 
 # Flutter watch for hot reload application
@@ -73,4 +75,14 @@ function flutter-watch(){
   send-keys 'nodemon -e dart -x "cat /tmp/tf1.pid | xargs kill -s USR1"' Enter \;\
   resize-pane -y 5 -t 1 \;\
   select-pane -t 0 \;
+}
+
+# Shell wrapper that provides the ability to change the current working directory when exiting Yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
 }
