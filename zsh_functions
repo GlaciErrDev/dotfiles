@@ -62,10 +62,13 @@ function tmx() {
 
 function gd() {
   preview="git diff $@ --color=always -- {-1} | delta"
-  git diff $@ --name-only | fzf \
+  diff_files=$(git diff $@ --name-only)
+  if [ ${#diff_files} != 0 ]; then
+    echo $diff_files | fzf \
     --preview $preview \
     --preview-window=up,75% \
     --bind Ctrl-p:preview-half-page-up,Ctrl-n:preview-half-page-down
+  fi
 }
 
 # Flutter watch for hot reload application
