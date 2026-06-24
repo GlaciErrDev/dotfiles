@@ -1,11 +1,16 @@
-[manager]
-sort_by = "modified"
+[mgr]
+sort_by = "alphabetical"
 sort_sensitive = false
 sort_dir_first = true
-sort_reverse = true
+sort_reverse = false
 linemode = "size"
+show_hidden = true
 
 [opener]
 play = [
-  { run = 'open "$@"', orphan = true},
+  { run = 'mpv "$@"', orphan = true},
 ]
+
+[preview]
+max_width = 1500
+max_height = 2500
