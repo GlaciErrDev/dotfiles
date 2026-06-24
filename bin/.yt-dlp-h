@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv --write-description $@

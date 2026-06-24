@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+set -e
+
+d_files=$(find . -name download.txt -type f)
+base_dir=$(pwd)
+
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+reset=$(tput sgr0)
+
+for f in ${d_files}; do
+  echo "${green}$(dirname -- "${f}")${reset}"
+  cd "$(dirname -- "${f}")"
+  echo "${red}$(pwd)${reset}"
+  .yt-dlp-h --cookies-from-browser chrome --cookies cookies.txt -a "$(basename -- "${f}")" || true
+  cd ${base_dir}
+done
+
+rm -f -- cookies.txt

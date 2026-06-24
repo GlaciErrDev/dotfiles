@@ -1,0 +1,61 @@
+#!/bin/zsh
+
+# Default to 100M if no argument is provided
+INPUT_SIZE=${1:-100M}
+
+eza -laT --no-permissions --no-user --no-time -L 1 --total-size --sort=size -B . | awk -v req_size="$INPUT_SIZE" '
+BEGIN {
+    # 1. Manual Byte Conversion (No numfmt needed)
+    split("B K M G T", units);
+    for (i in units) u_map[units[i]] = i;
+    
+    if (match(req_size, /^[0-9.]+/)) {
+        num = substr(req_size, RSTART, RLENGTH);
+        unit = toupper(substr(req_size, RSTART + RLENGTH, 1));
+        if (unit == "" || unit == " ") unit = "B";
+        
+        threshold = num;
+        idx = u_map[unit];
+        for (j = 1; j < idx; j++) threshold *= 1024;
+    }
+
+    # 2. ANSI Colors
+    g = "\033[32m"; y = "\033[33m"; r = "\033[31m"; 
+    b = "\033[34m"; res = "\033[0m";
+}
+{
+    # 3. Strip commas for math
+    clean_size = $1;
+    gsub(/,/, "", clean_size);
+    clean_size = clean_size + 0;
+}
+# 4. Filter by threshold
+clean_size >= threshold {
+    calc_size = clean_size;
+    
+    # 5. Convert bytes back to human-readable for display
+    i = 1;
+    while (calc_size >= 1024 && i < 5) {
+        calc_size /= 1024;
+        i++;
+    }
+
+    # 6. Color size by magnitude
+    char = units[i];
+    col = (char == "K") ? g : (char == "M") ? y : r;
+    label = sprintf("%6.1f%s", calc_size, char);
+
+    # 7. Zsh-safe Tree Parsing
+    # Finds the branch (├──, └──) and separates the name
+    if ($0 ~ /[├└│]/) {
+        match($0, /[├└│][^A-Za-z0-9._]*/);
+        branch = substr($0, RSTART, RLENGTH);
+        name = substr($0, RSTART + RLENGTH);
+        printf "%s%s%s  %s%s%s%s\n", col, label, res, branch, b, name, res;
+    } else {
+        # Root entry (.)
+        name = substr($0, index($0, " ") + 1);
+        gsub(/^[0-9, ]+/, "", name);
+        printf "%s%s%s  %s%s%s\n", col, label, res, b, name, res;
+    }
+}'

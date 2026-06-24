@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+CURRENT_USER=$(id -un)
+sudo ln -sf /opt/homebrew/Cellar/neovim/$(ls -1 /opt/homebrew/Cellar/neovim | tail -n 1)/bin/nvim $HOME/bin/nv
+sudo chown -R $CURRENT_USER:$(id -gn) $HOME/bin/nv
