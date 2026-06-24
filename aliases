@@ -1,3 +1,6 @@
+# OpenCode
+alias oc='OPENCODE_ENABLE_TELEMETRY=1 OPENCODE_OTLP_ENDPOINT="http://127.0.0.1:4317" OPENCODE_OTLP_METRICS_INTERVAL=1000 OPENCODE_RESOURCE_ATTRIBUTES="service.name=opencode-app,deployment.environment=development" opencode'
+
 alias d='docker'
 
 ##########
@@ -64,8 +67,6 @@ function dco() {
 # Other #
 #########
 
-alias grep='rg'
-
 alias cat='bat'
 
 alias cddot='cd ~/.dotfiles'
@@ -76,8 +77,8 @@ alias l='eza -lag -s=changed'
 alias ll='eza -lg -s=changed'
 alias tldrf='tldr --list | fzf --preview="tldr {1} --color=always" --preview-window=right,70% | xargs tldr'
 
-alias yt-dlp-h='yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv --write-description'
-alias yt-dlp-audio='yt-dlp -f "bestaudio" --extract-audio --audio-format mp3'
+# alias yt-dlp-h='yt-dlp -f "bestvideo[ext=webm]+bestaudio[ext=webm]/best[ext=webm]/best" --merge-output-format mkv --write-description'
+alias yt-dlp-audio='yt-dlp -f "bestaudio" --extract-audio --audio-format wav'
 
 ############
 # Mac apps #

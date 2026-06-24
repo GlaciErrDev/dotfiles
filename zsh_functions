@@ -61,7 +61,7 @@ function tmx() {
 }
 
 function gd() {
-  preview="git diff $@ --color=always -- {-1} | delta"
+  preview="git diff $@ --color=always -- {-1}"
   diff_files=$(git diff $@ --name-only)
   if [ ${#diff_files} != 0 ]; then
     echo $diff_files | fzf \
