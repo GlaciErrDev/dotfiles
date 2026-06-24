@@ -1,10 +1,7 @@
 [alias]
-    s = stash
     poo = push origin HEAD
-    change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch -f --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
 
 [core]
-    pager = delta
     editor = nv
     excludesfile = ~/.dotfiles/gitignore
 
@@ -13,16 +10,3 @@
 
 [user]
     email = GlaciErrDev@users.noreply.github.com
-
-[interactive]
-    diffFilter = delta --color-only --features=interactive
-
-[include]
-    path = ~/.config/delta/themes/catppuccin.gitconfig
-
-[delta]
-    features = decorations catppuccin-mocha
-    # side-by-side = true
-
-[delta "interactive"]
-    keep-plus-minus-markers = false
