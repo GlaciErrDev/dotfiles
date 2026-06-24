@@ -6,6 +6,10 @@ return {
         timeout_ms = 5000,
       },
       servers = {
+        jinja_lsp = {
+          filetypes = { "jinja", "html" },
+        },
+        zls = {},
         pyright = {},
         gopls = {
           settings = {
@@ -31,7 +35,6 @@ return {
                 rangeVariableTypes = true,
               },
               analyses = {
-                fieldalignment = true,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
@@ -50,19 +53,17 @@ return {
         gopls = function(_, opts)
           -- workaround for gopls not supporting semanticTokensProvider
           -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-          require("lazyvim.util").lsp.on_attach(function(client, _)
-            if client.name == "gopls" then
-              if not client.server_capabilities.semanticTokensProvider then
-                local semantic = client.config.capabilities.textDocument.semanticTokens
-                client.server_capabilities.semanticTokensProvider = {
-                  full = true,
-                  legend = {
-                    tokenTypes = semantic.tokenTypes,
-                    tokenModifiers = semantic.tokenModifiers,
-                  },
-                  range = true,
-                }
-              end
+          Snacks.util.lsp.on({ name = "gopls" }, function(_, client)
+            if not client.server_capabilities.semanticTokensProvider then
+              local semantic = client.config.capabilities.textDocument.semanticTokens
+              client.server_capabilities.semanticTokensProvider = {
+                full = true,
+                legend = {
+                  tokenTypes = semantic.tokenTypes,
+                  tokenModifiers = semantic.tokenModifiers,
+                },
+                range = true,
+              }
             end
           end)
           -- end workaround
