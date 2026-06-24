@@ -12,7 +12,14 @@ setup: install-dotfiles \
   install-fzf \
 	install-flutter \
 	install-lazyvim \
-  install-oh-my-zsh ## Install development environment
+  install-oh-my-zsh \
+	post-install ## Install development environment
+
+.PHONY: post-install
+post-install: ## Post installation steps
+	@printf "\033[92m=========Post installation steps=========\033[0m\n\n"
+	@bat cache --build
+	@sudo ln -sf /opt/homebrew/Cellar/neovim/`ls -1 /opt/homebrew/Cellar/neovim | tail -n 1`/bin/nvim ~/bin/nv
 
 .PHONY: install-dotfiles
 install-dotfiles: ## Install dotfiles
@@ -51,19 +58,18 @@ install-brew-packages: ## Install brew packages
 	  codespell \
 	  shellcheck \
 	  cocoapods \
-		bat \
-		tealdeer \
-		git-delta \
-    gnu-sed
-		exiftool \
-		yazi \
-		ffmpegthumbnailer \
-		sevenzip \
-		poppler \
-		fd \
-		zoxide \
-		imagemagick \
-		font-symbols-only-nerd-font
+	  bat \
+	  tealdeer \
+	  gnu-sed \
+	  exiftool \
+	  yazi \
+	  ffmpegthumbnailer \
+	  sevenzip \
+	  poppler \
+	  fd \
+	  zoxide \
+	  imagemagick \
+	  font-symbols-only-nerd-font
 
 .PHONY: install-tmux
 install-tmux: install-tmux-plugin-manager install-tmux-plugins update-tmux-plugins ## Install tmux and plugins
