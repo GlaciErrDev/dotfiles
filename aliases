@@ -106,6 +106,7 @@ alias glg='git log --stat'
 alias gb='git branch'
 alias gco='git checkout'
 alias ggpullup='git pull upstream "$(git_current_branch)"'
+alias lg='lazygit'
 
 ########
 # NVIM #
