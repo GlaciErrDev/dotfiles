@@ -8,3 +8,8 @@ Thumbs.db
 
 nvim/plugin
 LazyVim/lazy-lock.json
+
+# Yazi editor backups and non-toml files
+yazi/*.toml-e
+yazi/*-*
+yazi/plugins/

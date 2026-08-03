@@ -45,9 +45,6 @@ export LANG=en_US.UTF-8
 
 export EDITOR=nv
 
-# Flutter
-export PATH="$PATH:$HOME/tools/flutter/bin"
-# flutter end
 
 # java
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home

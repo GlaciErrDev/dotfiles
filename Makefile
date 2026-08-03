@@ -2,7 +2,7 @@
 
 PYTHON_VERSION=3.12.4
 NODE_VERSION=20.16.0
-FLUTTER_VERSION=3.22.0
+
 .PHONY: setup
 setup: install-dotfiles \
   install-packages \
@@ -10,7 +10,6 @@ setup: install-dotfiles \
   install-pyenv-python \
   install-nodenv-node \
   install-fzf \
-	install-flutter \
 	install-lazyvim \
   install-oh-my-zsh \
 	post-install ## Install development environment
@@ -168,13 +167,6 @@ install-oh-my-zsh: ## Install oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
 	if [ ${SHELL} != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
 
-.PHONY: install-flutter
-# https://docs.flutter.dev/get-started/install/macos
-install-flutter: ## Install Flutter
-	@printf "\033[92m=========Install Flutter=========\033[0m\n\n"
-	@curl -LO https://storage.googleapis.com/flutter_infra_release/releases/stable/macos/flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip
-	@unzip flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip -d ~/tools/
-	@rm flutter_macos_arm64_${FLUTTER_VERSION}-stable.zip
 
 .PHONY: install-lazyvim
 install-lazyvim: ## Install Lazyvim

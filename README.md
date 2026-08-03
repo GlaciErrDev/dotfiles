@@ -42,7 +42,7 @@ Create these files for personal overrides:
 
 **CLI:** ripgrep, fd, eza, bat, btop, jq, yazi, wezterm
 
-**Languages:** Python 3.12.4, Node 20.16.0, Go, Flutter 3.22.0
+**Languages:** Python 3.12.4, Node 20.16.0, Go
 
 **Dev Tools:** Black, Pylint, Mypy, Pyright, Flake8, StyLua, YAPF
 
