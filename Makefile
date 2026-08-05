@@ -18,7 +18,7 @@ setup: install-dotfiles \
 post-install: ## Post installation steps
 	@printf "\033[92m=========Post installation steps=========\033[0m\n\n"
 	@bat cache --build
-	@sudo ln -sf /opt/homebrew/Cellar/neovim/`ls -1 /opt/homebrew/Cellar/neovim | tail -n 1`/bin/nvim ~/bin/nv
+	@sudo ln -sf /opt/homebrew/bin/nvim ~/bin/nv
 
 .PHONY: install-dotfiles
 install-dotfiles: ## Install dotfiles
