@@ -35,7 +35,6 @@ install-brew-casks: ## Install brew casks
 	@brew tap homebrew/cask-fonts
 	@brew install --cask \
 		lulu \
-		wezterm \
 		font-hack-nerd-font
 
 
