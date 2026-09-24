@@ -5,6 +5,9 @@ alias oc='OPENCODE_ENABLE_TELEMETRY=1 OPENCODE_OTLP_ENDPOINT="http://127.0.0.1:4
 
 alias d='docker'
 
+alias lg='lazygit'
+alias ld='lazydocker'
+
 ##########
 # Images #
 ##########
@@ -73,7 +76,7 @@ alias cat='bat'
 
 alias cddot='cd ~/.dotfiles'
 alias cdnot='cd ~/.notes'
-alias cdreq='cd ~/requests'
+alias cdreq='cd ~/.requests'
 alias tree='eza -lT --no-permissions --no-user --no-time'
 alias l='eza -lag -s=changed'
 alias ll='eza -lg -s=changed'
@@ -108,7 +111,6 @@ alias glg='git log --stat'
 alias gb='git branch'
 alias gco='git checkout'
 alias ggpullup='git pull upstream "$(git_current_branch)"'
-alias lg='lazygit'
 
 ########
 # NVIM #

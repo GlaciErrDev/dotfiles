@@ -60,18 +60,6 @@ function tmx() {
     fi
 }
 
-function gd() {
-  preview="git diff $@ --color=always -- {-1}"
-  diff_files=$(git diff $@ --name-only)
-  if [ ${#diff_files} != 0 ]; then
-    echo $diff_files | fzf \
-    --preview $preview \
-    --preview-window=up,75% \
-    --bind Ctrl-p:preview-half-page-up,Ctrl-n:preview-half-page-down
-  fi
-}
-
-
 # Shell wrapper that provides the ability to change the current working directory when exiting Yazi
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
