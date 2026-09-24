@@ -6,4 +6,5 @@ return {
   { "nvim-mini/mini.starter", enabled = false },
   { "nvim-mini/mini.animate", enabled = false },
   { "akinsho/bufferline.nvim", enabled = false },
+  { "MeanderingProgrammer/render-markdown.nvim", enabled = false },
 }
