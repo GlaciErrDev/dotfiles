@@ -7,6 +7,7 @@
 
 [init]
     templatedir = ~/.dotfiles/git-templates/
+    defaultBranch = main
 
 [user]
     email = GlaciErrDev@users.noreply.github.com
