@@ -13,3 +13,5 @@ LazyVim/lazy-lock.json
 yazi/*.toml-e
 yazi/*-*
 yazi/plugins/
+# omp writes config.yml.lock next to the config if it resolves the symlink
+omp/agent/config.yml.lock

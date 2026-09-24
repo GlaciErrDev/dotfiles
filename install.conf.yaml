@@ -38,3 +38,7 @@
     ~/.config/yapf: config/yapf
     ~/.config/nvim/lua: nvim/lua
     ~/.config/nvim/after: nvim/after
+    ~/.omp/agent/config.yml: omp/agent/config.yml
+    ~/.omp/agent/models.yml: omp/agent/models.yml
+    ~/.omp/plugins/package.json: omp/plugins/package.json
+    ~/.omp/puppeteer/package.json: omp/puppeteer/package.json

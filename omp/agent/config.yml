@@ -1,0 +1,24 @@
+symbolPreset: nerd
+theme:
+  dark: dark-tokyo-night
+  light: light-tokyo-night
+setupVersion: 2
+plan:
+  defaultOnStartup: true
+tools:
+  approvalMode: yolo
+dev:
+  autoqa: false
+personality: pragmatic
+defaultThinkingLevel: max
+textVerbosity: low
+includeWorkspaceTree: false
+statusLine:
+  transparent: false
+composer:
+  shape: box
+modelRoles:
+  default: splash/incoai/Qwen3.8-27B-Splash
+task:
+  maxConcurrency: 1
+  maxRecursionDepth: 0

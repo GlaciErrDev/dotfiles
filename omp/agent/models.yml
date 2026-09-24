@@ -1,0 +1,24 @@
+providers:
+  splash:
+    baseUrl: http://127.0.0.1:8000/v1
+    api: openai-responses
+    apiKey: dummy
+    models:
+      - id: incoai/Qwen3.6-35B-A3B-Splash
+        input:
+          - text
+        contextWindow: 262144
+        maxTokens: 32000
+        reasoning: true
+        thinkingLevelMap:
+          xhigh: xhigh
+      - id: incoai/Qwen3.8-27B-Splash
+        input:
+          - text
+        contextWindow: 131072
+        maxTokens: 32000
+        reasoning: true
+        thinkingLevelMap:
+          xhigh: xhigh
+    compat:
+      supportsDeveloperRole: true
