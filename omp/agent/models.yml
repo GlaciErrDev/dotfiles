@@ -15,7 +15,7 @@ providers:
       - id: incoai/Qwen3.8-27B-Splash
         input:
           - text
-        contextWindow: 131072
+        contextWindow: 262144
         maxTokens: 32000
         reasoning: true
         thinkingLevelMap:
