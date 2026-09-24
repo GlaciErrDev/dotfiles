@@ -27,13 +27,18 @@ map("n", "<C-r>", "<C-r>zz")
 map("n", "u", "uzz")
 map("n", "n", "nzzzv")
 map("n", "N", "NzzzV")
-map("n", "<leader>r", "<cmd>lua require('telescope.builtin').resume()<CR>", { desc = "Previouse Telescope command" })
 
 map({ "n", "v" }, "<leader>]", ":Gen<CR>")
 
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d›", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
+
+local function jump_around()
+  local picked_window_id = require("window-picker").pick_window()
+  vim.api.nvim_set_current_win(picked_window_id)
+end
+vim.keymap.set("n", "<space>wj", jump_around, { noremap = true })
 
 -- Preserve copy selection after pasting it
 map("x", "p", '"_dP')
