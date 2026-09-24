@@ -7,7 +7,7 @@ return {
       },
       servers = {
         jinja_lsp = {
-          filetypes = { "jinja", "html" },
+          filetypes = { "j2", "jinja", "html" },
         },
         zls = {},
         pyright = {},
