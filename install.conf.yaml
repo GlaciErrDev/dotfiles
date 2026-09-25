@@ -41,3 +41,4 @@
     ~/.omp/agent/models.yml: omp/agent/models.yml
     ~/.omp/plugins/package.json: omp/plugins/package.json
     ~/.omp/puppeteer/package.json: omp/puppeteer/package.json
+    ~/.hammerspoon/init.lua: hammerspoon/init.lua
