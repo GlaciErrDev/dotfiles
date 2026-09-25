@@ -12,6 +12,7 @@ setup: install-dotfiles \
   install-fzf \
 	install-lazyvim \
   install-oh-my-zsh \
+  relink-dotfiles \
 	post-install ## Install development environment
 
 .PHONY: post-install
@@ -142,8 +143,8 @@ install-node-packages: ## Install node packages
 	@printf "\033[92m=========Install npm packages=========\033[0m\n\n"
 	@PATH=$(NODENV_PATH) npm install -g neovim tree-sitter-cli nodemon
 
-.PHONY: install-hombrew
-install-hombrew: ## Install homebrew
+.PHONY: install-homebrew
+install-homebrew: ## Install homebrew
 	@printf "\033[92m=========Install homebrew=========\033[0m\n\n"
 	@/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
@@ -164,7 +165,7 @@ install-oh-my-zsh: ## Install oh-my-zsh
 	@printf "\033[92m=========Install oh-my-zsh=========\033[0m\n\n"
 	@rm -rf ${HOME}/.oh-my-zsh
 	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
-	if [ ${SHELL} != "/bin/zsh" ]; then chsh -s /bin/zsh; fi;
+	if [ "$$SHELL" != "/bin/zsh" ]; then chsh -s /bin/zsh; fi
 
 
 .PHONY: install-lazyvim
@@ -173,6 +174,12 @@ install-lazyvim: ## Install Lazyvim
 	@if [ -d "$(HOME)/.config/nvim" ]; then  mv $(HOME)/.config/nvim $(HOME)/.config/nvim_`date +"%d-%m-%Y_%s"`; fi 
 	@git clone https://github.com/LazyVim/starter $(HOME)/.config/nvim
 	@rm -rf $(HOME)/.config/nvim/.git $(HOME)/.config/nvim/lua
+	@cd $(HOME)/.config && ls -d nvim_* 2>/dev/null | sort -t_ -k3,3nr | sed -n '3,$$p' | while read -r d; do rm -rf "$$d"; done
+
+.PHONY: relink-dotfiles
+relink-dotfiles: ## Re-apply dotbot links (install-lazyvim orphans nvim lua/after)
+	@printf "\033[92m=========Re-apply dotfiles links=========\033[0m\n\n"
+	@./install.sh
 
 .PHONY: help
 # got from :https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
