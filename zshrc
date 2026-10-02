@@ -1,8 +1,32 @@
+# --- PATH helpers -------------------------------------------------------
+# Idempotent PATH mutation: no-ops when the directory is already in PATH,
+# so re-sourcing this file (or starting inside a shell that already ran it)
+# can never create duplicate entries.
+path-prepend() {
+  local dir
+  for dir in "$@"; do
+    case ":${PATH}:" in
+      *":${dir}:"*) ;;
+      *) PATH="${dir}:${PATH}" ;;
+    esac
+  done
+}
+
+path-append() {
+  local dir
+  for dir in "$@"; do
+    case ":${PATH}:" in
+      *":${dir}:"*) ;;
+      *) PATH="${PATH}:${dir}" ;;
+    esac
+  done
+}
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-export PATH="/usr/local/sbin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
+path-prepend /usr/local/sbin
+path-prepend "$HOME/.local/bin"
+path-prepend "$HOME/bin"
 export ZSH="$HOME/.oh-my-zsh"
 
 # NOTE: openssl
@@ -14,7 +38,7 @@ export LDFLAGS="-L/usr/local/opt/zlib/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include"
 
 # NOTE: sqlite
-export PATH="/usr/local/opt/sqlite/bin:$PATH"
+path-prepend /usr/local/opt/sqlite/bin
 export LDFLAGS="-L/usr/local/opt/sqlite/lib"
 export CPPFLAGS="-I/usr/local/opt/sqlite/include"
 
@@ -23,7 +47,7 @@ export LDFLAGS="-L/usr/local/opt/readline/lib"
 export CPPFLAGS="-I/usr/local/opt/readline/include"
 
 # NOTE: llvm
-export PATH="/usr/local/opt/llvm/bin:$PATH"
+path-prepend /usr/local/opt/llvm/bin
 
 # For compilers to find llvm you may need to set:
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
@@ -51,19 +75,19 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home
 # java end
 
 # golang
-export PATH=$PATH:$(go env GOPATH)/bin
+path-append "$(go env GOPATH)/bin"
 # golang end
 
 # Pyenv
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+path-prepend "$PYENV_ROOT/bin"
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
 # pyenv end
 
 # Nodenv
-export PATH="$HOME/.nodenv/bin:$PATH"
+path-prepend "$HOME/.nodenv/bin"
 eval "$(nodenv init -)"
 # nodenv end
 
@@ -71,7 +95,7 @@ eval "$(nodenv init -)"
 eval "$(zoxide init --cmd cd zsh)"
 # zoxide end
 
-export PATH=~/.npm-global/bin:$PATH
+path-prepend "$HOME/.npm-global/bin"
 
 
 # --files: List files that would be searched but do not search
@@ -83,13 +107,13 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 . "$HOME/.cargo/env"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+path-prepend /opt/homebrew/opt/libpq/bin
 
 # Zig
-export PATH="$PATH:$HOME/Downloads/zig-macos"
+path-append "$HOME/Downloads/zig-macos"
 
 # opencode
-export PATH=$HOME/.opencode/bin:$PATH
+path-prepend "$HOME/.opencode/bin"
 
 # Docker Podman
 export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman.sock"
@@ -97,6 +121,11 @@ export PODMAN_COMPOSE_WARNING_LOGS=false
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+path-prepend "$BUN_INSTALL/bin"
 # bun completions
 [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+
+# De-duplicate PATH in place (keeps the first = highest-priority occurrence).
+# Self-heals duplicates inherited from stale parent environments (tmux server
+# environment, nested shells, tools that spawn login shells).
+typeset -U path
