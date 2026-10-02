@@ -95,10 +95,8 @@ export PATH=$HOME/.opencode/bin:$PATH
 export DOCKER_HOST="unix://$HOME/.local/share/containers/podman/machine/podman.sock"
 export PODMAN_COMPOSE_WARNING_LOGS=false
 
-
-# bun completions
-[ -s "/Users/mikedurnosvystov/.bun/_bun" ] && source "/Users/mikedurnosvystov/.bun/_bun"
-
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# bun completions
+[ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
