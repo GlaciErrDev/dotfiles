@@ -29,30 +29,6 @@ path-prepend "$HOME/.local/bin"
 path-prepend "$HOME/bin"
 export ZSH="$HOME/.oh-my-zsh"
 
-# NOTE: openssl
-export LDFLAGS="-L/usr/local/opt/openssl/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl/include"
-
-# NOTE: zlib
-export LDFLAGS="-L/usr/local/opt/zlib/lib"
-export CPPFLAGS="-I/usr/local/opt/zlib/include"
-
-# NOTE: sqlite
-path-prepend /usr/local/opt/sqlite/bin
-export LDFLAGS="-L/usr/local/opt/sqlite/lib"
-export CPPFLAGS="-I/usr/local/opt/sqlite/include"
-
-# NOTE: readline
-export LDFLAGS="-L/usr/local/opt/readline/lib"
-export CPPFLAGS="-I/usr/local/opt/readline/include"
-
-# NOTE: llvm
-path-prepend /usr/local/opt/llvm/bin
-
-# For compilers to find llvm you may need to set:
-export LDFLAGS="-L/usr/local/opt/llvm/lib"
-export CPPFLAGS="-I/usr/local/opt/llvm/include"
-
 ZSH_CUSTOM=$HOME/.zsh_custom
 ZSH_THEME="custom"
 
