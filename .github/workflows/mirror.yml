@@ -1,0 +1,47 @@
+# Mirrors this private repository to the public, read-only mirror
+# GlaciErrDev/dotfiles.
+#
+# - Runs on every push to main (plus manual dispatch for re-syncs).
+# - fetch-depth: 0 clones the full history, so the public side is a
+#   faithful clone, not just the latest snapshot.
+# - Auth uses the PUBLIC_MIRROR_TOKEN secret: a fine-grained PAT scoped
+#   to GlaciErrDev/dotfiles with Contents: Read and write only. It is
+#   referenced via ${{ secrets }} and passed through env, so GitHub's
+#   secret redaction keeps it out of every log line.
+# - Actions must be disabled on the public repo
+#   (Settings > Actions > General > Disable actions) so the mirrored
+#   workflow files never run there and no public run logs exist.
+
+name: mirror
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# The push authenticates with the PAT, not GITHUB_TOKEN; keep the
+# implicit token read-only as defense in depth.
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror-main
+  cancel-in-progress: true
+
+jobs:
+  mirror:
+    name: Push main to GlaciErrDev/dotfiles
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Secret expressions in env values are never echoed by the runner,
+      # and the secret value is log-masked, so even a git error that
+      # prints the URL can't leak the token.
+      MIRROR_URL: https://x-access-token:${{ secrets.PUBLIC_MIRROR_TOKEN }}@github.com/GlaciErrDev/dotfiles.git
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push main to public mirror
+        run: git push "$MIRROR_URL" main:main
