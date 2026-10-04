@@ -33,7 +33,6 @@ install-packages: install-brew-casks install-brew-packages ## Install all tools 
 .PHONY: install-brew-casks
 install-brew-casks: ## Install brew casks
 	@printf "\033[92m=========Install brew casks=========\033[0m\n\n"
-	@brew tap homebrew/cask-fonts
 	@brew install --cask \
 		lulu \
 		font-hack-nerd-font

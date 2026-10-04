@@ -1,0 +1,108 @@
+# Installs the dotfiles on a fresh runner VM and verifies the result.
+#
+# Each run gets a disposable VM (that's the "fresh VM" part):
+#   - ubuntu-latest  : dotbot install + version managers; brew packages skipped
+#   - macos-latest   : same, plus the Homebrew packages/casks/tmux
+# A login shell is then sourced and the tools the rc expects are asserted.
+#
+# Runs on push/PR to main and on manual dispatch. macOS minutes count 10x
+# against the free tier, so keep new steps here fast.
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  install:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            expected: "nvim tmux rg fzf bat gh pyenv nodenv"
+          - os: macos-latest
+            expected: "nvim tmux rg fzf zoxide bat gh yazi btop pyenv nodenv"
+    env:
+      EXPECTED: ${{ matrix.expected }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: recursive
+
+      # Runner checkouts land in ~/work/<repo>/<repo>, but gitconfig's
+      # init.templatedir points at ~/.dotfiles/git-templates. Mirror the
+      # local layout so clones inherit the git hooks and no warning is logged.
+      - name: Alias workspace as ~/.dotfiles
+        run: ln -sfn "$GITHUB_WORKSPACE" "$HOME/.dotfiles"
+
+      - name: Install dotfiles (dotbot)
+        run: ./install.sh
+
+      - name: Install shell tooling (OS-agnostic)
+        # The Makefile runs `chsh -s /bin/zsh` when $SHELL is not zsh; chsh
+        # always asks for a password and the runner user has none, so skip it.
+        env:
+          SHELL: /bin/zsh
+        run: |
+          # zsh must exist before `make install-fzf`: the fzf installer
+          # drops shells whose binary is missing from PATH (`command -v`),
+          # so on the zsh-less ubuntu image it would skip ~/.fzf.zsh and
+          # fzf would never reach PATH.
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            sudo apt-get update
+            sudo apt-get install -y neovim tmux bat zsh ripgrep
+            # Ubuntu's bat package ships the binary as 'batcat' (no 'bat');
+            # link it under the name the setup and smoke test expect.
+            command -v bat >/dev/null 2>&1 || sudo ln -sf "$(command -v batcat)" /usr/local/bin/bat
+          fi
+          make install-oh-my-zsh install-fzf install-pyenv
+          # nodenv-installer auto-selects Homebrew when brew is on PATH, but
+          # hosted arm64 runners have a documented regression where consecutive
+          # brew invocations fail with "already locked" (actions/runner-images#13965).
+          # Hide brew to force the deterministic git-install path (as on ubuntu).
+          PATH="$(printf '%s' "$PATH" | tr ':' '\n' | grep -v '^/opt/homebrew/bin$' | paste -sd: -)" \
+            make install-nodenv
+
+      - name: Install Homebrew packages
+        if: matrix.os == 'macos-latest'
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: make install-brew-packages install-brew-casks install-tmux
+
+      - name: Verify dotbot symlinks
+        run: |
+          for f in ~/.zshrc ~/.gitconfig ~/.gitignore ~/.tmux.conf ~/.aliases \
+                   ~/.zsh_functions ~/.zsh_custom ~/.config/nvim/lua ~/.config/nvim/after; do
+            [ -L "$f" ] || { echo "FAIL: $f is not a symlink"; exit 1; }
+            echo "ok: $f -> $(readlink "$f")"
+          done
+
+      - name: Smoke test login shell
+        run: |
+          zsh -lic '
+            set -e
+            for t in ${=EXPECTED}; do
+              p=$(command -v "$t") || { echo "FAIL: $t not in PATH"; exit 1; }
+              echo "ok: $t -> $p"
+            done
+            dups=$(echo "$PATH" | tr ":" "\n" | sort | uniq -d)
+            if [ -n "$dups" ]; then
+              echo "FAIL: duplicate PATH entries: $dups"
+              exit 1
+            fi
+            echo "ok: PATH deduplicated"
+          '
+
+      - name: Source rc in a clean environment
+        run: |
+          env -i HOME="$HOME" TERM=xterm \
+            PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/homebrew/bin \
+            zsh -lic 'echo "ok: rc sources cleanly"'
