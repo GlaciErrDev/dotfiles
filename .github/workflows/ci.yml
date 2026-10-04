@@ -37,9 +37,10 @@ jobs:
         with:
           submodules: recursive
 
-      # Runner checkouts land in ~/work/<repo>/<repo>, but gitconfig's
-      # init.templatedir points at ~/.dotfiles/git-templates. Mirror the
-      # local layout so clones inherit the git hooks and no warning is logged.
+      # Runner checkouts land in ~/work/<repo>/<repo>, but the dotfiles
+      # expect to live at ~/.dotfiles (tmux sources ~/.dotfiles/tmux/*,
+      # the global gitconfig points at ~/.dotfiles/gitignore). Mirror the
+      # local layout so both resolve the same as on a dev machine.
       - name: Alias workspace as ~/.dotfiles
         run: ln -sfn "$GITHUB_WORKSPACE" "$HOME/.dotfiles"
 
