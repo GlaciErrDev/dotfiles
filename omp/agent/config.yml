@@ -23,6 +23,7 @@ task:
 workspace:
   additionalDirectories:
     - ~/.docs
+    - ~/.tasks
 skills:
   customDirectories:
     - ~/.docs/skills
