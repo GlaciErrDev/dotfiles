@@ -51,4 +51,9 @@ jobs:
           persist-credentials: false
 
       - name: Push main to public mirror
-        run: git push "$MIRROR_URL" main:main
+        # Force push is intentional: this repository is the source of
+        # truth and its history may be rewritten (rebase/squash). The
+        # public mirror is derived and read-only, so the private side
+        # always wins and a stale non-fast-forward push is a bug, not
+        # a conflict to resolve.
+        run: git push --force "$MIRROR_URL" main:main
