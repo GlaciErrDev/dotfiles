@@ -11,7 +11,6 @@ setup: install-dotfiles \
   install-nodenv-node \
   install-fzf \
 	install-lazyvim \
-  install-oh-my-zsh \
   relink-dotfiles \
 	post-install ## Install development environment
 
@@ -158,14 +157,6 @@ install-fzf: ## Install fzf
 	@rm -rf ${HOME}/.fzf
 	@git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 	@yes | ${HOME}/.fzf/install
-
-.PHONY: install-oh-my-zsh
-install-oh-my-zsh: ## Install oh-my-zsh
-	@printf "\033[92m=========Install oh-my-zsh=========\033[0m\n\n"
-	@rm -rf ${HOME}/.oh-my-zsh
-	@git clone https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh
-	if [ "$$SHELL" != "/bin/zsh" ]; then chsh -s /bin/zsh; fi
-
 
 .PHONY: install-lazyvim
 install-lazyvim: ## Install Lazyvim

@@ -27,13 +27,47 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 path-prepend /usr/local/sbin
 path-prepend "$HOME/.local/bin"
 path-prepend "$HOME/bin"
-export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_CUSTOM=$HOME/.zsh_custom
-ZSH_THEME="custom"
+# --- completions -----------------------------------------------------------
+# Native compinit (replaces oh-my-zsh): the completion dump is cached and
+# re-scanned at most once a day (the marker file holds today's date).
+autoload -Uz compinit
+comp_dump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/compdump"
+mkdir -p "${comp_dump:h}"
+comp_day="${comp_dump}.day"
+if [[ -f "$comp_dump" && -f "$comp_day" && $(<"$comp_day") == "$(date +%Y-%m-%d)" ]]; then
+  compinit -C -d "$comp_dump"
+else
+  compinit -d "$comp_dump"
+  date +%Y-%m-%d > "$comp_day"
+fi
 
-export ZSH_DISABLE_COMPFIX=true
-source $ZSH/oh-my-zsh.sh
+# --- history ---------------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt EXTENDED_HISTORY INC_APPEND_HISTORY SHARE_HISTORY HIST_IGNORE_DUPS HIST_IGNORE_SPACE
+
+# --- prompt ----------------------------------------------------------------
+# [dir] in red, (venv) in blue, [branch] in green with a dirty/clean marker,
+# -> in blue. PROMPT_SUBST makes the $(...) below expand on every display.
+setopt PROMPT_SUBST
+
+__prompt_info() {
+  local info="" branch
+  [[ -n $VIRTUAL_ENV ]] && info+=" $(virtualenv_info)"
+  if branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null) ||
+      branch=$(git rev-parse --short HEAD 2>/dev/null); then
+    if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
+      info+=" %F{green}[$branch %F{red}✘%f%F{green}]%f"
+    else
+      info+=" %F{green}[$branch ✔]%f"
+    fi
+  fi
+  print -r -- "$info"
+}
+
+PROMPT=$'%F{red}[%~]%f%F{blue}$(__prompt_info)%f %F{blue}->%f '
 
 source $HOME/.aliases
 source $HOME/.zsh_functions

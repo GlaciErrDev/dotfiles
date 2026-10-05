@@ -24,6 +24,16 @@ function virtualenv_info() {
         [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`')'
 }
 
+# Name of the current git branch (short hash when detached);
+# no output outside a repository.
+function git_current_branch() {
+        local ref
+        if ! ref=$(git symbolic-ref --quiet HEAD 2>/dev/null); then
+                ref=$(git rev-parse --short HEAD 2>/dev/null) || return 1
+        fi
+        echo "${ref#refs/heads/}"
+}
+
 # Neovim switcher
 function nvs() {
   items=("default")

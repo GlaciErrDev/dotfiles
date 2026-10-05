@@ -6,7 +6,7 @@ Personal macOS development environment configuration.
 
 - Neovim (LazyVim) with full Lua config
 - Tmux with plugins and catppuccin theme
-- Zsh with oh-my-zsh and custom functions
+- Zsh with a native prompt, cached completions and custom functions
 - CLI tools: ripgrep, fd, bat, eza, btop, fzf, zoxide
 
 ## Installation
@@ -16,8 +16,6 @@ git clone git@github.com:glacierrdev/dotfiles.git "${HOME}/.dotfiles"
 cd "${HOME}/.dotfiles"
 make setup
 ```
-
-**Note:** `oh-my-zsh` requires password to change default shell.
 
 ## Prerequisites
 

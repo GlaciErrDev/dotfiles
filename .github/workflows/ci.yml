@@ -64,7 +64,7 @@ jobs:
             # link it under the name the setup and smoke test expect.
             command -v bat >/dev/null 2>&1 || sudo ln -sf "$(command -v batcat)" /usr/local/bin/bat
           fi
-          make install-oh-my-zsh install-fzf install-pyenv
+          make install-fzf install-pyenv
           # nodenv-installer auto-selects Homebrew when brew is on PATH, but
           # hosted arm64 runners have a documented regression where consecutive
           # brew invocations fail with "already locked" (actions/runner-images#13965).
@@ -81,7 +81,7 @@ jobs:
       - name: Verify dotbot symlinks
         run: |
           for f in ~/.zshrc ~/.gitconfig ~/.gitignore ~/.tmux.conf ~/.aliases \
-                   ~/.zsh_functions ~/.zsh_custom ~/.config/nvim/lua ~/.config/nvim/after; do
+                   ~/.zsh_functions ~/.config/nvim/lua ~/.config/nvim/after; do
             [ -L "$f" ] || { echo "FAIL: $f is not a symlink"; exit 1; }
             echo "ok: $f -> $(readlink "$f")"
           done
