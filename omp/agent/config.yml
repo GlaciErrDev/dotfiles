@@ -3,14 +3,12 @@ theme:
   dark: dark-tokyo-night
   light: light-tokyo-night
 setupVersion: 2
-plan:
-  defaultOnStartup: true
 tools:
   approvalMode: yolo
 dev:
   autoqa: false
 personality: pragmatic
-defaultThinkingLevel: max
+defaultThinkingLevel: xhigh
 textVerbosity: low
 includeWorkspaceTree: false
 statusLine:
@@ -18,7 +16,13 @@ statusLine:
 composer:
   shape: box
 modelRoles:
-  default: splash/incoai/Qwen3.8-27B-Splash
+  default: splash/unsloth/Qwen3.8-27B-GGUF:Q8_0:xhigh
 task:
   maxConcurrency: 1
   maxRecursionDepth: 0
+workspace:
+  additionalDirectories:
+    - ~/.docs
+skills:
+  customDirectories:
+    - ~/.docs/skills

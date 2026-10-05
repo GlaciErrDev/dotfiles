@@ -20,5 +20,13 @@ providers:
         reasoning: true
         thinkingLevelMap:
           xhigh: xhigh
+      - id: unsloth/Qwen3.8-27B-GGUF:Q8_0
+        input:
+          - text
+        contextWindow: 262144
+        maxTokens: 32000
+        reasoning: true
+        thinkingLevelMap:
+          xhigh: xhigh
     compat:
       supportsDeveloperRole: true
