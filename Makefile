@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 
-PYTHON_VERSION=3.12.4
-NODE_VERSION=20.16.0
+PYTHON_VERSION=3.14.8
+NODE_VERSION=24.21.0
 
 .PHONY: setup
 setup: install-dotfiles \
