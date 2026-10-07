@@ -1,5 +1,5 @@
 #!/bin/sh
-# Toggle the light/dark theme: macOS appearance + tmux, nvim, bat, yazi, btop.
+# Toggle the light/dark theme: macOS appearance + tmux, nvim, bat, yazi.
 # Target state is derived from the current macOS appearance, so re-running is a no-op.
 
 set -u
@@ -33,13 +33,11 @@ if [ "$DARK" = "true" ]; then
   TMUX_VARIANT="day"; NVIM_BG="light"; TN_STYLE="day"
   BAT_LINE='--theme="Catppuccin Latte"'
   YAZI_LINE='use = "catppuccin-latte"'
-  BTOP_THEME="$HOME/.config/btop/themes/catppuccin_latte.theme"
 else
   MODE=DARK NEXT_DARK=true
   TMUX_VARIANT="night"; NVIM_BG="dark"; TN_STYLE="night"
   BAT_LINE='--theme="Catppuccin Mocha"'
   YAZI_LINE='use = "catppuccin-mocha"'
-  BTOP_THEME="$HOME/.config/btop/themes/catppuccin_mocha.theme"
 fi
 
 # tmux: rewrite the variant, reload if a server is running
@@ -61,10 +59,6 @@ sedconf "$HOME/.config/nvim/lua/plugins/colorscheme.lua" \
   "s|^([[:space:]]*)style = \"[a-z]*\",|\1style = \"$TN_STYLE\",|"
 sedconf "$HOME/.config/bat/config" "s|^--theme=.*$|$BAT_LINE|"
 sedconf "$HOME/.config/yazi/theme.toml" "s|^use = \".*\"$|$YAZI_LINE|"
-sedconf "$HOME/.config/btop/btop.conf" "s|^color_theme = \".*\"$|color_theme = \"$BTOP_THEME\"|"
-
-# Running btop: reload its config (quiet no-op if not running)
-pkill -s USR2 -x btop || true
 
 # Flip the system appearance last, so the desktop and terminal themes land together
 osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode.set($NEXT_DARK)" >/dev/null 2>&1

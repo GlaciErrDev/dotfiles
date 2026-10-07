@@ -7,7 +7,7 @@ Personal macOS development environment configuration.
 - Neovim (LazyVim) with full Lua config
 - Tmux with plugins and catppuccin theme
 - Zsh with a native prompt, cached completions and custom functions
-- CLI tools: ripgrep, fd, bat, eza, btop, fzf, zoxide
+- CLI tools: ripgrep, fd, bat, eza, fzf, zoxide
 
 ## Installation
 
@@ -37,7 +37,7 @@ Create these files for personal overrides:
 
 **Shell:** Zsh, Tmux, Fzf, Zoxide
 
-**CLI:** ripgrep, fd, eza, bat, btop, jq, yazi
+**CLI:** ripgrep, fd, eza, bat, jq, yazi
 
 **Languages:** Python 3.14.8, Node 24.21.0, Go
 

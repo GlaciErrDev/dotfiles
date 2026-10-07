@@ -58,7 +58,6 @@ install-brew-packages: ## Install brew packages
 	  neovim \
 	  golang \
 	  eza \
-	  btop \
 	  urlview \
 	  ripgrep \
 	  jq \

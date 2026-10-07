@@ -39,7 +39,6 @@ DOTBOT_LINKS=(
   "$HOME/.config/flake8"
   "$HOME/.config/bat"
   "$HOME/.config/yazi"
-  "$HOME/.config/btop/themes"
   "$HOME/.config/stylua.toml"
   "$HOME/.config/yapf"
   "$HOME/.config/nvim/lua"
@@ -177,7 +176,7 @@ makefile_pin() {
 
 @test "brew CLI packages are on PATH" {
   local tool
-  for tool in nvim tmux rg jq eza btop gh bat fd zoxide yazi; do
+  for tool in nvim tmux rg jq eza gh bat fd zoxide yazi; do
     command -v "$tool" >/dev/null || fail "$tool not found in PATH (brew install)"
   done
 }

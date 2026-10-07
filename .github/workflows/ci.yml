@@ -29,7 +29,7 @@ jobs:
           - os: ubuntu-latest
             expected: "nvim tmux rg fzf bat gh pyenv nodenv"
           - os: macos-latest
-            expected: "nvim tmux rg fzf zoxide bat gh yazi btop pyenv nodenv"
+            expected: "nvim tmux rg fzf zoxide bat gh yazi pyenv nodenv"
     env:
       EXPECTED: ${{ matrix.expected }}
     steps:
