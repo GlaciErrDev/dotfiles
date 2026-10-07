@@ -20,7 +20,6 @@ return {
         "pyright",
         "shellcheck",
       },
-      automatic_installation = true,
     },
   },
   { "mason-org/mason-lspconfig.nvim" },
