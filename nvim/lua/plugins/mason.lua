@@ -1,5 +1,8 @@
 return {
-  -- add any tools you want to have installed below
+  -- add any tools you want to have installed below. Do NOT list stylua or
+  -- shfmt here: LazyVim's own ensure_installed defaults already include
+  -- both, the two lists are concatenated without dedup (opts_extend), and
+  -- mason asserts on a duplicated entry ("Package is already installing").
   {
     "mason-org/mason.nvim",
     opts = {
@@ -16,8 +19,6 @@ return {
         "mypy",
         "pyright",
         "shellcheck",
-        "shfmt",
-        "stylua",
       },
       automatic_installation = true,
     },
