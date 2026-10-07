@@ -18,7 +18,15 @@ setup: install-dotfiles \
 post-install: ## Post installation steps
 	@printf "\033[92m=========Post installation steps=========\033[0m\n\n"
 	@bat cache --build
-	@sudo ln -sf /opt/homebrew/bin/nvim ~/bin/nv
+	# ~/bin/nv -> the brew prefix' nvim (OS-aware via `brew --prefix`:
+	# /opt/homebrew on macOS, /home/linuxbrew/.linuxbrew on linuxbrew).
+	# Created only when absent: an existing entry (the developer machine's
+	# own link, visible through the e2e guests' mounted repo) is left
+	# alone, and the guests' sshfs mounts cannot create symlinks anyway.
+	@if [ ! -e ~/bin/nv ] && [ ! -L ~/bin/nv ]; then \
+		ln -sf $(shell brew --prefix)/bin/nvim ~/bin/nv \
+		  || echo "warning: could not create ~/bin/nv"; \
+	fi
 
 .PHONY: install-dotfiles
 install-dotfiles: ## Install dotfiles
@@ -30,11 +38,15 @@ install-dotfiles: ## Install dotfiles
 install-packages: install-brew-casks install-brew-packages ## Install all tools and packages
 
 .PHONY: install-brew-casks
-install-brew-casks: ## Install brew casks
+install-brew-casks: ## Install brew casks (macOS only; skipped on Linux)
 	@printf "\033[92m=========Install brew casks=========\033[0m\n\n"
-	@brew install --cask \
-		lulu \
-		font-hack-nerd-font
+	@if [ "$$(uname)" = "Darwin" ]; then \
+		brew install --cask \
+			lulu \
+			font-hack-nerd-font; \
+	else \
+		echo "skipping brew casks on $$(uname) (macOS-only)"; \
+	fi
 
 
 .PHONY: install-brew-packages
