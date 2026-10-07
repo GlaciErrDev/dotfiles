@@ -25,5 +25,8 @@ yazi/*-*
 *-e
 *-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]
 
+# e2e test artifacts (scripts/test-e2e.sh)
+test-results/
+
 # Machine-specific nvim symlink created by `make post-install`
 bin/nv
