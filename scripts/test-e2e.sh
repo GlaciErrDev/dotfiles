@@ -87,6 +87,18 @@ report_summary() {
 }
 
 cleanup() {
+  # Finalize the stored logs first (the most valuable artifacts): strip
+  # the ANSI escape sequences the guest tools emit (make section titles,
+  # brew/curl progress) so the logs read cleanly in any viewer -- naive
+  # ones render the raw codes as literal "[92m" noise. cleanup runs from
+  # the EXIT trap, so every exit path is covered.
+  local log_file
+  for log_file in "${UBUNTU_LOG}" "${MACOS_LOG}"; do
+    if [ -f "${log_file}" ]; then
+      LC_ALL=C sed $'s/\x1b\[[0-9;?]*[@-~]//g' "${log_file}" > "${log_file}.ansi.tmp" \
+        && mv "${log_file}.ansi.tmp" "${log_file}"
+    fi
+  done
   # Always delete whatever VMs this run created, even on failure.
   if [ "${UBUNTU_VM_CREATED}" -eq 1 ]; then
     log "Deleting Ubuntu VM ${UBUNTU_VM}"
