@@ -20,7 +20,7 @@
 #                pyenv compiles CPython) and installs neovim/bats if missing
 #   3. runs `make setup` non-interactively, logging to
 #      test-results/<os>-install.log
-#   4. syncs the LazyVim plugins headlessly (`Lazy! sync`), waits for the
+#   4. syncs the nvim plugins headlessly (`Lazy! sync`), waits for the
 #      mason tool installs to finish, then exports :checkhealth to
 #      /tmp/nvim-health.txt in the guest, and copies the report to
 #      test-results/<os>-nvim-health.txt
@@ -216,7 +216,7 @@ ${GUEST_PATH_EXPORT}
 cd \"${MACOS_GUEST_REPO}\"
 make setup"
 
-# Headless LazyVim plugin sync + :checkhealth export, immediately after
+# Headless nvim plugin sync + :checkhealth export, immediately after
 # `make setup`. Health warnings must not fail the run (|| true), but the
 # report file must exist and be non-empty for the suite to assert on.
 #
@@ -233,21 +233,18 @@ make setup"
 # minutes), dumps the suspect processes, force-closes mason's stalled
 # installs, and re-installs the missing tools (3 tries).
 #
-# MASON_TOOLS: the union mason installs on a fresh config -- LazyVim's own
-# ensure_installed defaults (stylua, shfmt) plus this repo's
-# nvim/lua/plugins/mason.lua list, deduped. Keep in sync with both.
+# MASON_TOOLS: what mason installs on a fresh config -- the
+# ensure_installed list in nvim/lua/plugins/formatting.lua. Keep in sync
+# with it.
 MASON_TOOLS="$(
-  {
-    printf '%s\n' stylua shfmt
-    sed -n '/ensure_installed = {/,/}/p' "${REPO_ROOT}/nvim/lua/plugins/mason.lua" \
-      | grep -oE '"[^"]+"' | tr -d '"'
-  } | awk 'NF && !seen[$0]++' || true
+  sed -n '/ensure_installed = {/,/}/p' "${REPO_ROOT}/nvim/lua/plugins/formatting.lua" \
+    | grep -oE '"[^"]+"' | tr -d '"' | awk 'NF && !seen[$0]++' || true
 )"
 
 nvim_health_script="set -euo pipefail
 ${GUEST_PATH_EXPORT}
 export MASON_TOOLS='${MASON_TOOLS}'
-nvim --headless \"+Lazy! sync\" -c \"lua local _ = pcall(require, 'mason')
+nvim --headless \"+Lazy! sync\" -c \"lua vim.api.nvim_exec_autocmds('User', { pattern = 'VeryLazy' })\" -c \"lua local _ = pcall(require, 'mason')
 local raw = string.gsub(vim.env.MASON_TOOLS or '', '%s+', ' ')
 local tools = vim.split(raw, ' ', { ignoreempty = true })
 local deadline = os.time() + 1200

@@ -10,7 +10,7 @@ setup: install-dotfiles \
   install-pyenv-python \
   install-nodenv-node \
   install-fzf \
-	install-lazyvim \
+	install-nvim \
   relink-dotfiles \
 	post-install ## Install development environment
 
@@ -169,16 +169,13 @@ install-fzf: ## Install fzf
 	@git clone --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
 	@yes | ${HOME}/.fzf/install
 
-.PHONY: install-lazyvim
-install-lazyvim: ## Install Lazyvim
-	@printf "\033[92m=========Install Lazyvim=========\033[0m\n\n"
-	@if [ -d "$(HOME)/.config/nvim" ]; then  mv $(HOME)/.config/nvim $(HOME)/.config/nvim_`date +"%d-%m-%Y_%s"`; fi 
-	@git clone https://github.com/LazyVim/starter $(HOME)/.config/nvim
-	@rm -rf $(HOME)/.config/nvim/.git $(HOME)/.config/nvim/lua
-	@cd $(HOME)/.config && ls -d nvim_* 2>/dev/null | sort -t_ -k3,3nr | sed -n '3,$$p' | while read -r d; do rm -rf "$$d"; done
+.PHONY: install-nvim
+install-nvim: ## Prepare the Neovim config directory
+	@printf "\033[92m=========Install Neovim=========\n\n"
+	@mkdir -p $(HOME)/.config/nvim
 
 .PHONY: relink-dotfiles
-relink-dotfiles: ## Re-apply dotbot links (install-lazyvim orphans nvim lua/after)
+relink-dotfiles: ## Re-apply all dotbot links
 	@printf "\033[92m=========Re-apply dotfiles links=========\033[0m\n\n"
 	@./install.sh
 

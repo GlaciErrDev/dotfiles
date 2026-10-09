@@ -1,56 +1,60 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
-
-vim.g.snacks_animate = false
+-- Global options. Per-filetype overrides live in after/ftplugin/.
 
 local opt = vim.opt
 
-opt.conceallevel = 0
-opt.relativenumber = false -- Relative line numbers
-opt.background = "light" -- changes via automator script
+-- UI
+opt.number = true
+opt.relativenumber = true
+opt.signcolumn = "yes"
+opt.cursorline = true
+opt.termguicolors = true
+opt.mouse = "a"
+opt.laststatus = 3
+opt.showmode = false
+opt.showcmd = false
+opt.ruler = false
+opt.scrolloff = 8
+opt.sidescrolloff = 10
+opt.pumheight = 10
+opt.completeopt = { "menu", "menuone", "noselect" }
+opt.fillchars = { eob = " " }
+opt.splitright = true
+opt.splitbelow = true
+opt.wrap = false
+opt.linebreak = true
+opt.emoji = true
 
--- Function to get the full path and replace the home directory with ~
-local function get_winbar_path()
-  local full_path = vim.fn.expand("%:p:h")
-  return full_path:gsub(vim.fn.expand("$HOME"), "~")
+-- Editing
+opt.expandtab = true
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.softtabstop = 2
+opt.smartindent = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.incsearch = true
+opt.inccommand = "split"
+opt.clipboard = "unnamedplus"
+opt.undofile = true
+opt.undodir = vim.fn.stdpath("state") .. "/undo"
+opt.undolevels = 10000
+
+-- Files
+opt.backup = false
+opt.swapfile = false
+opt.writebackup = false
+opt.history = 1000
+
+-- Timing
+opt.updatetime = 250
+opt.timeoutlen = 400
+
+-- Environment
+-- Mason-installed tools (LSP servers, conform formatters) resolve by
+-- bare command name; make sure mason's bin dir is on PATH regardless of
+-- how nvim was launched (LazyVim's mason-lspconfig used to supply
+-- absolute paths, so the gap only showed up after the migration).
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin"
+if vim.fn.isdirectory(mason_bin) == 1 and not vim.env.PATH:find(mason_bin, 1, true) then
+  vim.env.PATH = mason_bin .. ":" .. vim.env.PATH
 end
--- Function to get the number of open buffers using the :ls command
-local function get_buffer_count()
-  return vim.fn.len(vim.fn.getbufinfo({ buflisted = 1 }))
-end
--- Function to update the winbar
-local function update_winbar()
-  local home_replaced = get_winbar_path()
-  local buffer_count = get_buffer_count()
-  vim.opt.winbar = "%#WinBar1#%m "
-    .. "%#WinBar2#("
-    .. buffer_count
-    .. ") "
-    -- this shows the filename on the left
-    .. "%#WinBar3#"
-    .. vim.fn.expand("%:t")
-    -- This shows the file path on the right
-    .. "%*%=%#WinBar1#"
-    .. home_replaced
-  -- I don't need the hostname as I have it in lualine
-  -- .. vim.fn.systemlist("hostname")[1]
-end
--- Winbar was not being updated after I left lazygit
-vim.api.nvim_create_autocmd({ "BufEnter", "ModeChanged" }, {
-  callback = function(args)
-    local old_mode = args.event == "ModeChanged" and vim.v.event.old_mode or ""
-    local new_mode = args.event == "ModeChanged" and vim.v.event.new_mode or ""
-    -- Only update if ModeChanged is relevant (e.g., leaving LazyGit)
-    if args.event == "ModeChanged" then
-      -- Get buffer filetype
-      local buf_ft = vim.bo.filetype
-      -- Only update when leaving `snacks_terminal` (LazyGit)
-      if buf_ft == "snacks_terminal" or old_mode:match("^t") or new_mode:match("^n") then
-        update_winbar()
-      end
-    else
-      update_winbar()
-    end
-  end,
-})

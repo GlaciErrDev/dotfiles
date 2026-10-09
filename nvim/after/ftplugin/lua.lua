@@ -1,3 +1,5 @@
-vim.opt.tabstop = 4 -- Always 8 (see :h tabstop)
-vim.opt.softtabstop = 2 -- What you expecting
-vim.opt.shiftwidth = 2 -- What you expecting
+-- Matches config/stylua.toml (indent_width = 2).
+vim.opt_local.expandtab = true
+vim.opt_local.shiftwidth = 2
+vim.opt_local.tabstop = 2
+vim.opt_local.softtabstop = 2

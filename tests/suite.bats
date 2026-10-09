@@ -8,7 +8,7 @@
 #   2. installed the guest prerequisites (base tooling, CPython build
 #      deps, linuxbrew on ubuntu; brew/CLT verification on macOS),
 #   3. run `make setup` non-interactively,
-#   4. synced the LazyVim plugins headlessly and exported :checkhealth
+#   4. synced the nvim plugins headlessly and exported :checkhealth
 #      to /tmp/nvim-health.txt.
 #
 # It asserts what that pipeline owns:
@@ -18,7 +18,7 @@
 #   * the global git configuration from the repo's gitconfig is applied
 #   * everything `make setup` adds: brew CLI packages, Tmux TPM,
 #     pyenv + the pinned Python + pip tools, nodenv + the pinned Node +
-#     npm globals, fzf, the LazyVim config, the headless :checkhealth
+#     npm globals, fzf, the nvim config, the headless :checkhealth
 #     report, and the ~/bin/nv symlink
 #
 # The suite is OS-agnostic: the same file must pass on both guests.
@@ -41,6 +41,7 @@ DOTBOT_LINKS=(
   "$HOME/.config/yazi"
   "$HOME/.config/stylua.toml"
   "$HOME/.config/yapf"
+  "$HOME/.config/nvim/init.lua"
   "$HOME/.config/nvim/lua"
   "$HOME/.config/nvim/after"
   "$HOME/.omp/agent/config.yml"
@@ -236,8 +237,9 @@ makefile_pin() {
   [ "$status" -eq 0 ] || fail "fzf --version failed: $output"
 }
 
-@test "lazyvim config is installed" {
-  [ -d "$HOME/.config/nvim" ] || fail "~/.config/nvim is missing (install-lazyvim failed?)"
+@test "nvim config is installed" {
+  [ -d "$HOME/.config/nvim" ] || fail "~/.config/nvim is missing (install-nvim failed?)"
+  [ -f "$HOME/.config/nvim/init.lua" ] || fail "~/.config/nvim/init.lua does not resolve (dotbot link broken?)"
 }
 
 @test "neovim health report was generated" {

@@ -81,7 +81,7 @@ jobs:
       - name: Verify dotbot symlinks
         run: |
           for f in ~/.zshrc ~/.gitconfig ~/.gitignore ~/.tmux.conf ~/.aliases \
-                   ~/.zsh_functions ~/.config/nvim/lua ~/.config/nvim/after; do
+                   ~/.zsh_functions ~/.config/nvim/init.lua ~/.config/nvim/lua ~/.config/nvim/after; do
             [ -L "$f" ] || { echo "FAIL: $f is not a symlink"; exit 1; }
             echo "ok: $f -> $(readlink "$f")"
           done

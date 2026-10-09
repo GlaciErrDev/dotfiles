@@ -4,7 +4,7 @@ Personal macOS development environment configuration.
 
 ## Features
 
-- Neovim (LazyVim) with full Lua config
+- Neovim with a vanilla Lua config (lazy.nvim, LSP, treesitter, fzf-lua, …)
 - Tmux with plugins and catppuccin theme
 - Zsh with a native prompt, cached completions and custom functions
 - CLI tools: ripgrep, fd, bat, eza, fzf, zoxide
@@ -33,7 +33,7 @@ Create these files for personal overrides:
 
 ## Tools Included
 
-**Editor:** Neovim (LazyVim)
+**Editor:** Neovim (vanilla Lua config)
 
 **Shell:** Zsh, Tmux, Fzf, Zoxide
 
@@ -53,12 +53,12 @@ git pull && make setup
 ## Local e2e tests
 
 Boots a disposable VM, mounts this repo into it, and runs the full
-`make setup` inside the guest. Right after, the guest syncs the LazyVim
+`make setup` inside the guest. Right after, the guest syncs the nvim
 plugins headlessly (`nvim --headless "+Lazy! sync" +qa`) and exports
 `:checkhealth` to a report file. The bats suite in `tests/suite.bats`
 then verifies everything: dotbot symlinks, brew CLI packages, Tmux TPM,
 pyenv/Python at the Makefile pin, nodenv/Node at the pin, fzf, the
-LazyVim config, the health report, and the global git config. Each run
+nvim config, the health report, and the global git config. Each run
 is disposable: the VM is deleted on completion (via trap, on every exit
 path) and other multipass/tart instances are never touched.
 

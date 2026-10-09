@@ -1,3 +1,5 @@
-vim.opt.tabstop = 8 -- Always 8 (see :h tabstop)
-vim.opt.softtabstop = 8 -- What you expecting
-vim.opt.shiftwidth = 8 -- What you expecting
+-- gofmt: hard tabs, two tabs per indent level.
+vim.opt_local.expandtab = false
+vim.opt_local.shiftwidth = 8
+vim.opt_local.tabstop = 8
+vim.opt_local.softtabstop = 8
