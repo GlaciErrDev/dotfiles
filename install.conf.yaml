@@ -31,6 +31,7 @@
     ~/.config/flake8: config/flake8
     ~/.config/bat: bat
     ~/.config/yazi: yazi
+    ~/.config/ghostty/config: ghostty/config
     ~/.config/stylua.toml: config/stylua.toml
     ~/.config/yapf: config/yapf
     ~/.config/nvim/lua: nvim/lua

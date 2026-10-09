@@ -1,0 +1,13 @@
+# theme = dark:Catppuccin Mocha,light:Catppuccin Latte
+theme = dark:TokyoNight Night,light:TokyoNight Day
+
+# aesthetics
+background-opacity = 0.95
+background-blur=16
+macos-titlebar-style = hidden
+
+# typography
+font-size=16
+font-thicken=true
+font-thicken-strength=1
+adjust-cell-height=1
