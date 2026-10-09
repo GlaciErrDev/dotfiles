@@ -4,7 +4,7 @@ Personal macOS development environment configuration.
 
 ## Features
 
-- Neovim with a vanilla Lua config (lazy.nvim, LSP, treesitter, fzf-lua, …)
+- Neovim with a vanilla Lua config (lazy.nvim, LSP, treesitter, snacks.nvim, …)
 - Tmux with plugins and catppuccin theme
 - Zsh with a native prompt, cached completions and custom functions
 - CLI tools: ripgrep, fd, bat, eza, fzf, zoxide
