@@ -2,6 +2,9 @@ return {
   {
     "mason-org/mason.nvim",
     event = { "VeryLazy" },
+    keys = {
+      { "<leader>cm", "<cmd>Mason<CR>", desc = "Mason" },
+    },
     config = function()
       require("mason").setup({})
     end,

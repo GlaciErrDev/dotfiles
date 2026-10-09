@@ -1,6 +1,7 @@
 -- Global keymaps: the LazyVim starter defaults (lua/lazyvim/config/keymaps.lua)
 -- plus personal keymaps from the old config, ported over as-is.
--- Plugin-scoped maps (LSP, gitsigns, fzf-lua, oil, ...) live in their specs.
+-- Plugin-scoped maps (LSP, gitsigns, snacks pickers/terminal/explorer, ...)
+-- live in their specs.
 -- <C-h/j/k/l> are plain window movement (LazyVim default); window-picker
 
 local map = vim.keymap.set
@@ -211,7 +212,12 @@ end, { desc = "Toggle Treesitter" })
 map("n", "<leader>ub", function()
   vim.o.background = vim.o.background == "dark" and "light" or "dark"
 end, { desc = "Toggle Dark Background" })
--- Git (fzf-lua git pickers trigger from plugins/navigation.lua).
+map("n", "<leader>ua", function()
+  vim.g.snacks_animate = vim.g.snacks_animate == false
+  Snacks.notify.info("Animations " .. (vim.g.snacks_animate and "enabled" or "disabled"))
+end, { desc = "Toggle Animations" })
+
+-- Git (snacks git pickers trigger from plugins/snacks.lua).
 if vim.fn.executable("lazygit") == 1 then
   map("n", "<leader>gg", function()
     local root = vim.fn.systemlist({ "git", "rev-parse", "--show-toplevel" })[1]
@@ -228,48 +234,7 @@ map("n", "<leader>uI", function()
   vim.treesitter.inspect_tree()
   vim.api.nvim_input("I")
 end, { desc = "Inspect Tree" })
--- Floating terminal (LazyVim: <leader>fT = terminal in cwd, <c-/> to focus).
-local function find_term_win()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "terminal" then
-      return win
-    end
-  end
-end
-
-local function focus_terminal()
-  local win = find_term_win()
-  if win then
-    vim.api.nvim_set_current_win(win)
-  else
-    vim.notify("No terminal window open", vim.log.levels.INFO)
-  end
-end
-
-local function open_terminal()
-  local win = find_term_win()
-  if win then
-    vim.api.nvim_set_current_win(win)
-    return
-  end
-  local buf = vim.api.nvim_create_buf(false, true)
-  win = vim.api.nvim_open_win(buf, true, { relative = "editor" })
-  vim.api.nvim_win_set_config(win, {
-    relative = "editor",
-    width = math.floor(vim.o.columns * 0.8),
-    height = math.floor(vim.o.lines * 0.8),
-    row = math.floor(vim.o.lines * 0.1),
-    col = math.floor(vim.o.columns * 0.1),
-    style = "minimal",
-    border = "rounded",
-  })
-  vim.api.nvim_open_term(buf, { cwd = vim.fn.getcwd() })
-  vim.api.nvim_set_current_win(win)
-  vim.cmd("startinsert")
-end
-map("n", "<leader>fT", open_terminal, { desc = "Floating Terminal (cwd)" })
-map({ "n", "t" }, "<c-/>", focus_terminal, { desc = "Focus Terminal" })
-map({ "n", "t" }, "<c-_>", focus_terminal, { desc = "which_key_ignore" })
+-- Terminal: handled by snacks.nvim (Snacks.terminal, maps in plugins/snacks.lua).
 
 -- Windows.
 map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below" })
