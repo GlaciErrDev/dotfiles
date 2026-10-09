@@ -39,14 +39,8 @@ return {
       },
     },
   },
-  {
-    "folke/noice.nvim",
-    event = { "VeryLazy" },
-    dependencies = { "MunifTanjim/nui.nvim" },
-    -- cmdline, messages and menus get the noice UI; lualine keeps the
-    -- statusline (noice's own statusline module stays disabled).
-    config = true,
-  },
+  -- Notifications: snacks.nvim (Snacks.notifier, see plugins/snacks.lua);
+  -- noice.nvim is no longer in the stack.
   {
     "NStefan002/screenkey.nvim",
     -- Eager (like the old config): the VimEnter autostart below only

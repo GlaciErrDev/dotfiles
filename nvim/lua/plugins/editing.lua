@@ -1,3 +1,28 @@
+-- rg-backed todo picker (snacks has no todo_comments source in v2);
+-- results go to the quickfix list, opened via Snacks.picker.
+local function todo_picker(keywords)
+  local rg = vim.fn.executable("rg") == 1 and vim.fn.exepath("rg")
+  if not rg then
+    vim.notify("rg not found", vim.log.levels.WARN)
+    return
+  end
+  local root = vim.fs.root(0, { ".git", "stylua.toml", ".luarc.json", "pyproject.toml", "go.mod" })
+      or vim.fn.getcwd()
+  local args = { rg, "--line-number", "--no-heading", "--color", "never" }
+  for _, kw in ipairs(keywords) do
+    vim.list_extend(args, { "-e", kw })
+  end
+  local qf = {}
+  for _, line in ipairs(vim.fn.systemlist(args, { cwd = root })) do
+    local path, lnum, text = line:match("^(.+):(%d+):(.*)$")
+    if path and lnum then
+      qf[#qf + 1] = { filename = path, lnum = tonumber(lnum), text = text }
+    end
+  end
+  vim.fn.setqflist(qf)
+  Snacks.picker.qflist()
+end
+
 return {
   {
     "echasnovski/mini.ai",
@@ -105,6 +130,10 @@ return {
       map("n", "<C-x>", "<Plug>(dial-decrement)", { desc = "Decrement" })
       map("v", "<C-a>", "<Plug>(dial-increment)", { desc = "Increment" })
       map("v", "<C-x>", "<Plug>(dial-decrement)", { desc = "Decrement" })
+      map("n", "g<C-a>", "<Plug>(dial-increment)", { desc = "Increment" })
+      map("n", "g<C-x>", "<Plug>(dial-decrement)", { desc = "Decrement" })
+      map("x", "g<C-a>", "<Plug>(dial-increment)", { desc = "Increment" })
+      map("x", "g<C-x>", "<Plug>(dial-decrement)", { desc = "Decrement" })
     end,
   },
   {
@@ -114,14 +143,8 @@ return {
       { "<leader>sr", "<cmd>GrugFar<CR>", desc = "Search and replace" },
     },
   },
-  {
-    "RRethy/vim-illuminate",
-    event = { "BufReadPost" },
-    config = function(_, opts)
-      require("illuminate").configure(opts)
-    end,
-    opts = { delay = 200 },
-  },
+  -- Word highlighting and ]]/[[ reference jumps: snacks.words (see
+  -- plugins/snacks.lua); vim-illuminate is no longer in the stack.
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -144,11 +167,18 @@ return {
         desc = "Previous TODO",
       },
       {
-        "<leader>ft",
+        "<leader>st",
         function()
-          require("fzf-lua").todo()
+          todo_picker({ "TODO", "FIXME", "HACK", "XXX" })
         end,
-        desc = "Find TODOs",
+        desc = "Todo",
+      },
+      {
+        "<leader>sT",
+        function()
+          todo_picker({ "TODO", "FIXME" })
+        end,
+        desc = "Todo/Fixme",
       },
     },
   },
@@ -165,16 +195,18 @@ return {
     -- Current refactoring.nvim creates no keymaps itself (README:
     -- "no keymaps are created by default") and the old `keymaps`,
     -- `auto_import` and `auto_create_roots` opts no longer exist —
-    -- wire the maps per the README instead (expr, operator-pending).
+    -- wire the LazyVim keymaps from the csv audit (expr,
+    -- operator-pending); `<leader>rr` = LSP rename (refactoring.nvim
+    -- has no rename).
     config = function()
       local map = vim.keymap.set
-      map({ "n", "x" }, "<leader>re", function()
+      map({ "n", "x" }, "<leader>rf", function()
         return require("refactoring").extract_func()
       end, { desc = "Extract Function", expr = true })
-      map({ "n", "x" }, "<leader>rz", function()
+      map({ "n", "x" }, "<leader>rF", function()
         return require("refactoring").extract_func_to_file()
       end, { desc = "Extract Function to File", expr = true })
-      map({ "n", "x" }, "<leader>rf", function()
+      map({ "n", "x" }, "<leader>ri", function()
         return require("refactoring").inline_var()
       end, { desc = "Inline Variable", expr = true })
       map({ "n", "x" }, "<leader>rr", function()

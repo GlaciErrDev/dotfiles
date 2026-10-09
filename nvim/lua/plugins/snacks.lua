@@ -33,8 +33,7 @@ return {
       terminal = { enabled = true },
       scratch = { enabled = true },
       words = { enabled = true },
-      -- noice.nvim owns vim.notify until the commit that removes it.
-      notifier = { enabled = false },
+      notifier = { enabled = true },
     },
     -- stylua: ignore
     keys = {
