@@ -27,3 +27,5 @@ workspace:
 skills:
   customDirectories:
     - ~/.docs/skills
+compaction:
+  thresholdPercent: 70
